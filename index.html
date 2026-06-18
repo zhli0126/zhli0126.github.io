@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zhou Li</title>
+  <style>
+    :root {
+      --ink: #111111;
+      --muted: #555555;
+      --line: #e7e7e7;
+      --link: #0645ad;
+      --paper: #ffffff;
+      --terminal: #0d1117;
+      --terminal-link: #58a6ff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.55;
+    }
+
+    a {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .language-switch {
+      position: fixed;
+      top: 18px;
+      right: 22px;
+      display: flex;
+      gap: 6px;
+      z-index: 10;
+    }
+
+    .language-switch button {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 5px 11px;
+      color: var(--muted);
+      background: #ffffff;
+      font: inherit;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .language-switch button.is-active {
+      color: #ffffff;
+      border-color: var(--ink);
+      background: var(--ink);
+    }
+
+    .site {
+      width: min(760px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 58px 0 72px;
+      text-align: center;
+    }
+
+    .photo {
+      width: 178px;
+      height: 178px;
+      margin: 0 auto 24px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center 34%;
+      display: block;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1.15;
+    }
+
+    .intro {
+      max-width: 560px;
+      margin: 0 auto 20px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px 18px;
+      margin: 24px 0 10px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .nav button,
+    .nav a {
+      border: 0;
+      padding: 0;
+      background: transparent;
+      color: var(--link);
+      font: inherit;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .nav button:hover {
+      text-decoration: underline;
+    }
+
+    .panel {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: max-height 220ms ease, opacity 180ms ease, transform 180ms ease;
+      text-align: left;
+    }
+
+    .panel.is-open {
+      max-height: 860px;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .terminal {
+      margin: 24px auto 0;
+      padding: 16px;
+      border-radius: 6px;
+      background: var(--terminal);
+      color: #ffffff;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 14px;
+      line-height: 1.48;
+    }
+
+    .terminal a {
+      color: var(--terminal-link);
+      text-decoration: underline;
+    }
+
+    .terminal-output {
+      display: block;
+      min-height: 86px;
+      margin: 0;
+      color: #ffffff;
+      font: inherit;
+      white-space: pre-wrap;
+    }
+
+    .terminal-output.is-typing::after {
+      content: "_";
+      display: inline-block;
+      margin-left: 2px;
+      color: #ffffff;
+      animation: blink 1s steps(2, start) infinite;
+    }
+
+    footer {
+      margin-top: 36px;
+      color: #888888;
+      font-size: 13px;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .language-switch {
+        position: static;
+        justify-content: flex-end;
+        width: min(760px, calc(100% - 36px));
+        margin: 16px auto 0;
+      }
+
+      .site {
+        padding-top: 28px;
+      }
+
+      .photo {
+        width: 142px;
+        height: 142px;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+
+      .intro {
+        font-size: 16px;
+      }
+
+      .nav {
+        gap: 8px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="language-switch" aria-label="Language switch">
+    <button type="button" class="is-active" data-lang-button="zh">中文</button>
+    <button type="button" data-lang-button="en">EN</button>
+  </div>
+
+  <main class="site">
+    <img class="photo" src="assets/zhou-li-profile.jpg" alt="Zhou Li">
+    <h1>Zhou Li</h1>
+    <p class="intro" data-i18n="intro">
+      悉尼大学计算机科学硕士，研究兴趣包括网络安全、人工智能安全应用与自动化漏洞发现。
+    </p>
+
+    <ul class="nav" aria-label="Page navigation">
+      <li><button type="button" data-panel="email" data-i18n="navEmail">Email</button></li>
+      <li><button type="button" data-panel="education" data-i18n="navEducation">Education</button></li>
+      <li><button type="button" data-panel="experience" data-i18n="navExperience">学习经历</button></li>
+      <li><button type="button" data-panel="direction" data-i18n="navDirection">学习方向</button></li>
+      <li><button type="button" data-panel="honors" data-i18n="navHonors">个人荣誉</button></li>
+      <li><a href="resume-cn.html" data-i18n="navResume">简历</a></li>
+      <li><a href="cv-en.html" data-i18n="navCv">CV</a></li>
+      <li><a href="https://github.com/zhli0126" target="_blank" rel="noreferrer">GitHub↗</a></li>
+    </ul>
+
+    <section class="panel" id="email" aria-hidden="true">
+      <div class="terminal">
+        <pre class="terminal-output" aria-live="polite"></pre>
+      </div>
+    </section>
+
+    <section class="panel" id="education" aria-hidden="true">
+      <div class="terminal">
+        <pre class="terminal-output" aria-live="polite"></pre>
+      </div>
+    </section>
+
+    <section class="panel" id="experience" aria-hidden="true">
+      <div class="terminal">
+        <pre class="terminal-output" aria-live="polite"></pre>
+      </div>
+    </section>
+
+    <section class="panel" id="direction" aria-hidden="true">
+      <div class="terminal">
+        <pre class="terminal-output" aria-live="polite"></pre>
+      </div>
+    </section>
+
+    <section class="panel" id="honors" aria-hidden="true">
+      <div class="terminal">
+        <pre class="terminal-output" aria-live="polite"></pre>
+      </div>
+    </section>
+
+    <footer data-i18n="footer">Last updated: 2026</footer>
+  </main>
+
+  <script>
+    const content = {
+      zh: {
+        intro: "悉尼大学计算机科学硕士，研究兴趣包括网络安全、人工智能安全应用与自动化漏洞发现。",
+        navEmail: "Email",
+        navEducation: "Education",
+        navExperience: "学习经历",
+        navDirection: "学习方向",
+        navHonors: "个人荣誉",
+        navResume: "简历",
+        navCv: "CV",
+        footer: "Last updated: 2026",
+        panels: {
+          email: `> open email
+
+个人信息
+- 姓名：李周 / Zhou Li
+- 性别：男
+- 出生年月：2002/1/26
+- 籍贯：江苏南京
+- 专业：计算机科学
+- 学历：硕士
+- 目前院校：悉尼大学
+- 爱好：健身、骑行
+
+联系方式
+- Phone:
+- E-mail:
+- GitHub: https://github.com/zhli0126`,
+          education: `> open education
+
+Education Background
+- Nanjing Vocational University of Industry Technology
+  Bachelor, 2020.9 - 2024.6
+- The University of Sydney
+  Master, 2025.8 - Present`,
+          experience: `> open learning-experience
+
+学习经历
+- 2022年参加星烛创业项目，担任全栈工程师。
+- 2022年参加蓝桥杯 Python 组别比赛，获得省二等奖。
+- 2023-2024年参加全国高校硕士招生考试，报考南京航空航天大学，计算机专业 408 统考科目分数 123。
+- 2025年在悉尼大学学习计算机科学，主攻方向为网络安全。
+- 2026年在 Hack The Box 等平台学习，并利用网络安全知识在 HackerOne 等 bug bounty 平台寻找漏洞并提交报告。`,
+          direction: `> open learning-direction
+
+学习方向
+- 本科均分为 85，硕士目前 WAM 为 87。
+- 在悉尼大学攻读计算机科学与技术专业至 2027.6，主攻方向为网络安全，已学习 Web 渗透、安卓逆向、密码学等相关知识。
+- 研究兴趣包括移动系统中的隐私与安全、人工智能在安全领域的应用、行为生物特征识别。
+- 在 HTB 的 Discord 平台加深学习网络安全，并达到 hacker level。
+- 继续在 HackerOne bug bounty 平台进行漏洞查找并报告。
+- 将 AI 和网络安全协同，构建自动化查找漏洞的方案。
+
+掌握技能及专业认证
+- 全国计算机二级。
+- 熟练应用 C、Java、Python 等编程语言。
+- 熟练应用 ChatGPT o1、editGPT、Sora 等大语言模型。
+- 具备 CTF 与靶场实操经验，熟悉 Web 安全、渗透测试和基础逆向分析。
+- 英语：CET-4，CET-6，雅思 7 分。`,
+          honors: `> open honors
+
+个人荣誉
+- 2022年获得蓝桥杯省二等奖。
+- 2022年星烛创识获得南京市紫金科创创业基金二等奖。
+- 2023-2024学年获得南京工业职业技术大学本科二等奖学金。
+- 2025年获得悉尼大学 Python 设计一等奖。
+- 2026年获得 HackerOne 奖金 1000 美元。`
+        }
+      },
+      en: {
+        intro: "Master of Computer Science student at the University of Sydney, interested in cybersecurity, AI for security, and automated vulnerability discovery.",
+        navEmail: "Email",
+        navEducation: "Education",
+        navExperience: "Learning Experience",
+        navDirection: "Study Interests",
+        navHonors: "Honors",
+        navResume: "Resume",
+        navCv: "CV",
+        footer: "Last updated: 2026",
+        panels: {
+          email: `> open email
+
+Personal Information
+- Name: Zhou Li
+- Gender: Male
+- Date of Birth: 2002/1/26
+- Hometown: Nanjing, Jiangsu, China
+- Major: Computer Science
+- Degree Level: Master's
+- Current University: The University of Sydney
+- Interests: Fitness, cycling
+
+Contact
+- Phone:
+- E-mail:
+- GitHub: https://github.com/zhli0126`,
+          education: `> open education
+
+Education Background
+- Nanjing Vocational University of Industry Technology
+  Bachelor, 2020.9 - 2024.6
+- The University of Sydney
+  Master, 2025.8 - Present`,
+          experience: `> open learning-experience
+
+Learning Experience
+- Participated in the Xingzhu entrepreneurship project in 2022 as a full-stack engineer.
+- Participated in the Lanqiao Cup Python competition in 2022 and won the provincial second prize.
+- Took the National Postgraduate Entrance Examination in 2023-2024, applying for Computer Science at Nanjing University of Aeronautics and Astronautics, with a score of 123 in the 408 CS subject.
+- Started studying Computer Science at the University of Sydney in 2025, focusing on cybersecurity.
+- In 2026, studied on platforms such as Hack The Box and submitted vulnerability reports on bug bounty platforms such as HackerOne.`,
+          direction: `> open study-interests
+
+Study Interests
+- Undergraduate average score: 85. Current master's WAM: 87.
+- Studying Computer Science at the University of Sydney until 2027.6, focusing on cybersecurity. Current learning areas include web penetration testing, Android reverse engineering, and cryptography.
+- Research interests include privacy and security in mobile systems, AI applications in security, and behavioral biometrics.
+- Continued cybersecurity learning on the HTB Discord platform and reached hacker level.
+- Continuing vulnerability discovery and reporting on HackerOne.
+- Exploring ways to combine AI and cybersecurity to build automated vulnerability discovery workflows.
+
+Skills and Certifications
+- National Computer Rank Examination Level 2.
+- Proficient in C, Java, Python, and related programming languages.
+- Experienced with large language models and tools including ChatGPT o1, editGPT, and Sora.
+- Practical experience with CTFs and training labs; familiar with web security, penetration testing, and basic reverse engineering.
+- English: CET-4, CET-6, IELTS 7.`,
+          honors: `> open honors
+
+Honors
+- Lanqiao Cup Provincial Second Prize, 2022.
+- Nanjing Zijin Science and Technology Innovation Entrepreneurship Fund Second Prize for Xingzhu Innovation, 2022.
+- Undergraduate Second-Class Scholarship, Nanjing Vocational University of Industry Technology, 2023-2024.
+- First Prize in Python Design at the University of Sydney, 2025.
+- HackerOne bounty of USD 1,000, 2026.`
+        }
+      }
+    };
+
+    const buttons = document.querySelectorAll("[data-panel]");
+    const panels = document.querySelectorAll(".panel");
+    const languageButtons = document.querySelectorAll("[data-lang-button]");
+    let currentLanguage = "zh";
+    let activeTyping = 0;
+
+    function escapeHtml(value) {
+      return value
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function linkify(value) {
+      const escaped = escapeHtml(value);
+      return escaped
+        .replace(
+          /(https?:\/\/[^\s]+)/g,
+          '<a href="$1" target="_blank" rel="noreferrer">$1</a>'
+        )
+        .replace(
+          /([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})/gi,
+          '<a href="mailto:$1">$1</a>'
+        );
+    }
+
+    function closePanels() {
+      activeTyping += 1;
+
+      panels.forEach((panel) => {
+        panel.classList.remove("is-open");
+        panel.setAttribute("aria-hidden", "true");
+        const output = panel.querySelector(".terminal-output");
+        output.textContent = "";
+        output.classList.remove("is-typing");
+      });
+    }
+
+    function typeTerminal(panel) {
+      const runId = ++activeTyping;
+      const output = panel.querySelector(".terminal-output");
+      const text = content[currentLanguage].panels[panel.id];
+      let index = 0;
+
+      output.textContent = "";
+      output.classList.add("is-typing");
+
+      function typeNext() {
+        if (runId !== activeTyping || !panel.classList.contains("is-open")) {
+          return;
+        }
+
+        output.textContent = text.slice(0, index);
+
+        if (index < text.length) {
+          index += 1;
+          window.setTimeout(typeNext, text[index - 1] === "\n" ? 70 : 14);
+          return;
+        }
+
+        output.classList.remove("is-typing");
+        output.innerHTML = linkify(text);
+      }
+
+      typeNext();
+    }
+
+    function setLanguage(language) {
+      currentLanguage = language;
+      document.documentElement.lang = language === "zh" ? "zh-CN" : "en";
+
+      document.querySelectorAll("[data-i18n]").forEach((element) => {
+        const key = element.dataset.i18n;
+        element.textContent = content[language][key];
+      });
+
+      languageButtons.forEach((button) => {
+        button.classList.toggle("is-active", button.dataset.langButton === language);
+      });
+
+      closePanels();
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const target = document.getElementById(button.dataset.panel);
+        const isOpen = target.classList.contains("is-open");
+
+        closePanels();
+
+        if (!isOpen) {
+          target.classList.add("is-open");
+          target.setAttribute("aria-hidden", "false");
+          typeTerminal(target);
+        }
+      });
+    });
+
+    languageButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        setLanguage(button.dataset.langButton);
+      });
+    });
+  </script>
+</body>
+</html>
