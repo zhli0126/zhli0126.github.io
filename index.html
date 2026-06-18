@@ -229,8 +229,7 @@
       <li><button type="button" data-panel="experience" data-i18n="navExperience">学习经历</button></li>
       <li><button type="button" data-panel="direction" data-i18n="navDirection">学习方向</button></li>
       <li><button type="button" data-panel="honors" data-i18n="navHonors">个人荣誉</button></li>
-      <li><a href="resume-cn.html" data-i18n="navResume">简历</a></li>
-      <li><a href="cv-en.html" data-i18n="navCv">CV</a></li>
+      <li><button type="button" data-panel="resume" data-i18n="navResume">简历↗</button></li>
       <li><a href="https://github.com/zhli0126" target="_blank" rel="noreferrer">GitHub↗</a></li>
     </ul>
 
@@ -264,6 +263,12 @@
       </div>
     </section>
 
+    <section class="panel" id="resume" aria-hidden="true">
+      <div class="terminal">
+        <pre class="terminal-output" aria-live="polite"></pre>
+      </div>
+    </section>
+
     <footer data-i18n="footer">Last updated: 2026</footer>
   </main>
 
@@ -276,9 +281,9 @@
         navExperience: "学习经历",
         navDirection: "学习方向",
         navHonors: "个人荣誉",
-        navResume: "简历",
-        navCv: "CV",
+        navResume: "简历↗",
         footer: "Last updated: 2026",
+        resumeUrl: "resume-cn.html",
         panels: {
           email: `> open email
 
@@ -334,7 +339,12 @@
 - 2022年星烛创识获得南京市紫金科创创业基金二等奖。
 - 2023-2024学年获得南京工业职业技术大学本科二等奖学金。
 - 2025年获得悉尼大学 Python 设计一等奖。
-- 2026年获得 HackerOne 奖金 1000 美元。`
+- 2026年获得 HackerOne 奖金 1000 美元。`,
+          resume: `> open resume
+
+简历制作中。
+未来这里会根据当前语言跳转到中文简历页面：
+resume-cn.html`
         }
       },
       en: {
@@ -344,9 +354,9 @@
         navExperience: "Learning Experience",
         navDirection: "Study Interests",
         navHonors: "Honors",
-        navResume: "Resume",
-        navCv: "CV",
+        navResume: "CV↗",
         footer: "Last updated: 2026",
+        resumeUrl: "cv-en.html",
         panels: {
           email: `> open email
 
@@ -402,7 +412,12 @@ Honors
 - Nanjing Zijin Science and Technology Innovation Entrepreneurship Fund Second Prize for Xingzhu Innovation, 2022.
 - Undergraduate Second-Class Scholarship, Nanjing Vocational University of Industry Technology, 2023-2024.
 - First Prize in Python Design at the University of Sydney, 2025.
-- HackerOne bounty of USD 1,000, 2026.`
+- HackerOne bounty of USD 1,000, 2026.`,
+          resume: `> open cv
+
+CV page under construction.
+This item is reserved for a future language-aware redirect:
+cv-en.html`
         }
       }
     };
@@ -412,6 +427,7 @@ Honors
     const languageButtons = document.querySelectorAll("[data-lang-button]");
     let currentLanguage = "zh";
     let activeTyping = 0;
+    const resumePagesReady = false;
 
     function escapeHtml(value) {
       return value
@@ -500,6 +516,11 @@ Honors
         closePanels();
 
         if (!isOpen) {
+          if (button.dataset.panel === "resume" && resumePagesReady) {
+            window.location.href = content[currentLanguage].resumeUrl;
+            return;
+          }
+
           target.classList.add("is-open");
           target.setAttribute("aria-hidden", "false");
           typeTerminal(target);
