@@ -1,540 +1,684 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zhou Li</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>七月旅行计划 | 广西 · 云南 · 新疆</title>
   <style>
     :root {
-      --ink: #111111;
-      --muted: #555555;
-      --line: #e7e7e7;
-      --link: #0645ad;
-      --paper: #ffffff;
-      --terminal: #0d1117;
-      --terminal-link: #58a6ff;
+      --ink: #17211f;
+      --muted: #66736f;
+      --paper: #fbfaf5;
+      --line: rgba(23, 33, 31, .14);
+      --green: #2e6b57;
+      --teal: #167b8c;
+      --amber: #d89531;
+      --rose: #a94e45;
+      --blue: #285f9f;
+      --white: #fffdf8;
+      --shadow: 0 18px 45px rgba(32, 44, 40, .16);
+      --radius: 22px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      min-height: 100vh;
-      font-family: Arial, Helvetica, sans-serif;
       color: var(--ink);
       background: var(--paper);
-      line-height: 1.55;
+      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif;
+      line-height: 1.6;
     }
 
-    a {
-      color: var(--link);
-      text-decoration: none;
+    a { color: inherit; }
+    .hero {
+      min-height: 86vh;
+      display: grid;
+      align-items: end;
+      position: relative;
+      color: white;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(10, 25, 24, .15), rgba(10, 25, 24, .82)),
+        url("https://source.unsplash.com/1800x1200/?china,travel,mountain,road") center/cover;
     }
-
-    a:hover {
-      text-decoration: underline;
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 34%;
+      background: linear-gradient(180deg, transparent, var(--paper));
+      opacity: .72;
+      pointer-events: none;
     }
-
-    .language-switch {
-      position: fixed;
-      top: 18px;
-      right: 22px;
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      width: min(1160px, calc(100% - 40px));
+      margin: 0 auto 76px;
+    }
+    .kicker {
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      padding: 7px 12px;
+      border: 1px solid rgba(255, 255, 255, .38);
+      background: rgba(255, 255, 255, .12);
+      backdrop-filter: blur(10px);
+      border-radius: 999px;
+      font-size: 13px;
+      letter-spacing: 0;
+    }
+    h1 {
+      margin: 22px 0 18px;
+      font-size: clamp(44px, 7vw, 86px);
+      line-height: .98;
+      letter-spacing: 0;
+      max-width: 900px;
+    }
+    .hero p {
+      max-width: 720px;
+      font-size: 20px;
+      margin: 0;
+      color: rgba(255, 255, 255, .88);
+    }
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
       display: flex;
-      gap: 6px;
-      z-index: 10;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 12px 16px;
+      background: rgba(251, 250, 245, .86);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
     }
-
-    .language-switch button {
+    .nav a, .print-btn {
       border: 1px solid var(--line);
       border-radius: 999px;
-      padding: 5px 11px;
-      color: var(--muted);
-      background: #ffffff;
-      font: inherit;
-      font-size: 13px;
-      cursor: pointer;
-    }
-
-    .language-switch button.is-active {
-      color: #ffffff;
-      border-color: var(--ink);
-      background: var(--ink);
-    }
-
-    .site {
-      width: min(760px, calc(100% - 36px));
-      margin: 0 auto;
-      padding: 58px 0 72px;
-      text-align: center;
-    }
-
-    .photo {
-      width: 178px;
-      height: 178px;
-      margin: 0 auto 24px;
-      border-radius: 50%;
-      object-fit: cover;
-      object-position: center 34%;
-      display: block;
-    }
-
-    h1 {
-      margin: 0 0 8px;
-      font-size: 36px;
-      font-weight: 700;
-      line-height: 1.15;
-    }
-
-    .intro {
-      max-width: 560px;
-      margin: 0 auto 20px;
-      color: var(--muted);
-      font-size: 17px;
-    }
-
-    .nav {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px 18px;
-      margin: 24px 0 10px;
-      padding: 0;
-      list-style: none;
-    }
-
-    .nav button,
-    .nav a {
-      border: 0;
-      padding: 0;
-      background: transparent;
-      color: var(--link);
-      font: inherit;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .nav button:hover {
-      text-decoration: underline;
-    }
-
-    .panel {
-      max-height: 0;
-      overflow: hidden;
-      opacity: 0;
-      transform: translateY(-4px);
-      transition: max-height 220ms ease, opacity 180ms ease, transform 180ms ease;
-      text-align: left;
-    }
-
-    .panel.is-open {
-      max-height: 860px;
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .terminal {
-      margin: 24px auto 0;
-      padding: 16px;
-      border-radius: 6px;
-      background: var(--terminal);
-      color: #ffffff;
-      font-family: Consolas, "Courier New", monospace;
+      padding: 8px 13px;
+      background: var(--white);
+      text-decoration: none;
+      color: var(--ink);
       font-size: 14px;
-      line-height: 1.48;
+      cursor: pointer;
     }
-
-    .terminal a {
-      color: var(--terminal-link);
-      text-decoration: underline;
+    main {
+      width: min(1160px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 44px 0 80px;
     }
-
-    .terminal-output {
-      display: block;
-      min-height: 86px;
+    section { margin: 52px 0; }
+    .section-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 22px;
+      align-items: end;
+      margin-bottom: 22px;
+    }
+    h2 {
       margin: 0;
-      color: #ffffff;
-      font: inherit;
-      white-space: pre-wrap;
+      font-size: clamp(30px, 4.2vw, 48px);
+      line-height: 1.1;
+      letter-spacing: 0;
     }
-
-    .terminal-output.is-typing::after {
-      content: "_";
-      display: inline-block;
-      margin-left: 2px;
-      color: #ffffff;
-      animation: blink 1s steps(2, start) infinite;
+    .note {
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 680px;
     }
-
-    footer {
-      margin-top: 36px;
-      color: #888888;
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--white);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .route-card .photo {
+      height: 210px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    .route-card .photo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent, rgba(0, 0, 0, .58));
+    }
+    .route-card h3 {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      bottom: 16px;
+      z-index: 1;
+      color: white;
+      margin: 0;
+      font-size: 27px;
+      line-height: 1.18;
+    }
+    .card-body { padding: 20px; }
+    .tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 14px 0 0;
+    }
+    .tag {
+      display: inline-flex;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: rgba(46, 107, 87, .1);
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .score {
+      display: grid;
+      gap: 9px;
+      margin-top: 16px;
+    }
+    .bar {
+      display: grid;
+      grid-template-columns: 72px 1fr 34px;
+      gap: 10px;
+      align-items: center;
       font-size: 13px;
+      color: var(--muted);
     }
+    .track {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(23, 33, 31, .1);
+      overflow: hidden;
+    }
+    .fill {
+      height: 100%;
+      border-radius: 999px;
+      background: var(--green);
+    }
+    .comparison {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 18px;
+      background: var(--white);
+      box-shadow: var(--shadow);
+    }
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 15px 14px;
+      text-align: left;
+      vertical-align: top;
+      font-size: 15px;
+    }
+    th {
+      background: #edf3ee;
+      font-size: 13px;
+      color: #41514c;
+    }
+    tr:last-child td { border-bottom: 0; }
+    .route-section {
+      border-top: 1px solid var(--line);
+      padding-top: 52px;
+    }
+    .route-hero {
+      min-height: 360px;
+      border-radius: 30px;
+      overflow: hidden;
+      display: grid;
+      align-items: end;
+      color: white;
+      background-size: cover;
+      background-position: center;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+      position: relative;
+    }
+    .route-hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(8, 24, 23, .82), rgba(8, 24, 23, .18));
+    }
+    .route-hero > div {
+      position: relative;
+      z-index: 1;
+      padding: 34px;
+      max-width: 680px;
+    }
+    .route-hero h2 { color: white; }
+    .route-hero p { color: rgba(255,255,255,.88); margin: 12px 0 0; }
+    .split {
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .timeline {
+      display: grid;
+      gap: 12px;
+    }
+    .day {
+      display: grid;
+      grid-template-columns: 70px 1fr;
+      gap: 14px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--white);
+    }
+    .day strong {
+      display: grid;
+      place-items: center;
+      height: 48px;
+      border-radius: 14px;
+      background: #eef4f1;
+      color: var(--green);
+      font-size: 18px;
+    }
+    .day h4 { margin: 0 0 4px; font-size: 18px; }
+    .day p { margin: 0; color: var(--muted); font-size: 14px; }
+    .panel {
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--white);
+      box-shadow: var(--shadow);
+    }
+    .panel h3 {
+      margin: 0 0 14px;
+      font-size: 23px;
+    }
+    .budget {
+      display: grid;
+      gap: 10px;
+    }
+    .budget-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed var(--line);
+      font-size: 15px;
+    }
+    .budget-row:last-child { border-bottom: 0; padding-bottom: 0; }
+    .highlight {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 18px;
+      background: #f5efe2;
+      color: #5b3b11;
+    }
+    .scenery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .scenery div {
+      min-height: 86px;
+      padding: 14px;
+      border-radius: 16px;
+      color: white;
+      display: grid;
+      align-content: end;
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .scenery div::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent, rgba(0,0,0,.62));
+    }
+    .scenery span {
+      position: relative;
+      z-index: 1;
+      font-weight: 800;
+      font-size: 14px;
+    }
+    .recommend {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    .rank {
+      display: grid;
+      gap: 12px;
+    }
+    .rank-item {
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      gap: 14px;
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: var(--white);
+    }
+    .rank-item b {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      color: white;
+      background: var(--green);
+    }
+    .rank-item h3 { margin: 0 0 3px; font-size: 19px; }
+    .rank-item p { margin: 0; color: var(--muted); font-size: 14px; }
+    .sources {
+      font-size: 13px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      padding-top: 24px;
+    }
+    .sources ul { margin: 10px 0 0; padding-left: 20px; }
+    .sources li { margin: 6px 0; }
+    .accent-teal .fill, .accent-teal .rank-item b { background: var(--teal); }
+    .accent-amber .fill, .accent-amber .rank-item b { background: var(--amber); }
+    .accent-blue .fill, .accent-blue .rank-item b { background: var(--blue); }
 
-    @keyframes blink {
-      50% {
-        opacity: 0;
-      }
+    @media (max-width: 900px) {
+      .grid-3, .split, .recommend { grid-template-columns: 1fr; }
+      .section-head { grid-template-columns: 1fr; }
+      .comparison { display: block; overflow-x: auto; }
+      th, td { min-width: 170px; }
+      .hero-inner { margin-bottom: 46px; }
+      .route-hero { min-height: 320px; }
+      .route-hero > div { padding: 24px; }
     }
 
     @media (max-width: 560px) {
-      .language-switch {
-        position: static;
-        justify-content: flex-end;
-        width: min(760px, calc(100% - 36px));
-        margin: 16px auto 0;
-      }
+      main, .hero-inner { width: min(100% - 24px, 1160px); }
+      .hero { min-height: 78vh; }
+      .hero p { font-size: 17px; }
+      .day { grid-template-columns: 1fr; }
+      .day strong { width: 64px; }
+      .scenery { grid-template-columns: 1fr; }
+      .nav { justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; }
+      .nav a, .print-btn { white-space: nowrap; }
+    }
 
-      .site {
-        padding-top: 28px;
-      }
-
-      .photo {
-        width: 142px;
-        height: 142px;
-      }
-
-      h1 {
-        font-size: 30px;
-      }
-
-      .intro {
-        font-size: 16px;
-      }
-
-      .nav {
-        gap: 8px 14px;
-      }
+    @media print {
+      .nav, .print-btn { display: none; }
+      body { background: white; }
+      .hero { min-height: 720px; }
+      section { break-inside: avoid; }
+      .card, .panel, .comparison, .route-hero { box-shadow: none; }
     }
   </style>
 </head>
 <body>
-  <div class="language-switch" aria-label="Language switch">
-    <button type="button" class="is-active" data-lang-button="zh">中文</button>
-    <button type="button" data-lang-button="en">EN</button>
-  </div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="kicker">2026 年 7 月旅行方案 · 7 天 6 晚默认版</div>
+      <h1>广西山水、云南雪山古城、新疆湖泊草原</h1>
+      <p>三条路线都适合七月出行。本页按“2 人出行、舒适型住宿、含当地交通和门票、不含出发地往返大交通”的口径做预算，后续可按你的出发城市精修。</p>
+    </div>
+  </header>
 
-  <main class="site">
-    <img class="photo" src="assets/zhou-li-profile.jpg" alt="Zhou Li">
-    <h1 data-i18n="name">李周</h1>
-    <p class="intro" data-i18n="intro">
-      悉尼大学计算机科学硕士，研究兴趣包括网络安全、人工智能安全应用与自动化漏洞发现。
-    </p>
+  <nav class="nav">
+    <a href="#compare">方案对比</a>
+    <a href="#guangxi">广西崇左百色</a>
+    <a href="#yunnan">云南香格里拉丽江大理</a>
+    <a href="#xinjiang">新疆伊犁赛里木湖</a>
+    <a href="#recommend">推荐排序</a>
+    <button class="print-btn" onclick="window.print()">打印 / 存成 PDF</button>
+  </nav>
 
-    <ul class="nav" aria-label="Page navigation">
-      <li><button type="button" data-panel="email" data-i18n="navEmail">Email</button></li>
-      <li><button type="button" data-panel="education" data-i18n="navEducation">教育经历</button></li>
-      <li><button type="button" data-panel="experience" data-i18n="navExperience">学习经历</button></li>
-      <li><button type="button" data-panel="direction" data-i18n="navDirection">学习方向</button></li>
-      <li><button type="button" data-panel="honors" data-i18n="navHonors">个人荣誉</button></li>
-      <li><button type="button" data-panel="resume" data-i18n="navResume">简历↗</button></li>
-      <li><a href="https://github.com/zhli0126" target="_blank" rel="noreferrer">GitHub↗</a></li>
-    </ul>
+  <main>
+    <section id="compare">
+      <div class="section-head">
+        <div>
+          <h2>三条路线怎么选</h2>
+          <p class="note">如果目标是“路上风景震撼”，新疆最强；如果想平衡预算、行程强度和出片率，云南最稳；如果想看瀑布、田园、峡谷且预算友好，广西很适合。</p>
+        </div>
+      </div>
 
-    <section class="panel" id="email" aria-hidden="true">
-      <div class="terminal">
-        <pre class="terminal-output" aria-live="polite"></pre>
+      <div class="grid-3">
+        <article class="card route-card">
+          <div class="photo" style="background-image:url('https://source.unsplash.com/1200x900/?guangxi,waterfall,karst');">
+            <h3>广西崇左 + 百色</h3>
+          </div>
+          <div class="card-body">
+            <p>喀斯特田园、水量充沛的跨国瀑布、边境公路和靖西山水，适合想要轻松拍照和避开过度商业化的人。</p>
+            <div class="tags"><span class="tag">预算友好</span><span class="tag">瀑布</span><span class="tag">田园</span></div>
+            <div class="score">
+              <div class="bar"><span>风景密度</span><div class="track"><div class="fill" style="width:82%"></div></div><span>8.2</span></div>
+              <div class="bar"><span>舒适度</span><div class="track"><div class="fill" style="width:78%"></div></div><span>7.8</span></div>
+              <div class="bar"><span>预算压力</span><div class="track"><div class="fill" style="width:55%"></div></div><span>低</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card route-card accent-amber">
+          <div class="photo" style="background-image:url('https://source.unsplash.com/1200x900/?yunnan,lijiang,shangri-la,mountain');">
+            <h3>云南香格里拉 + 丽江 + 大理</h3>
+          </div>
+          <div class="card-body">
+            <p>雪山、古城、湖泊、草甸和藏区风情集中出现，交通成熟，七月旺季热闹但体验稳定。</p>
+            <div class="tags"><span class="tag">成熟线路</span><span class="tag">雪山古城</span><span class="tag">慢旅行</span></div>
+            <div class="score">
+              <div class="bar"><span>风景密度</span><div class="track"><div class="fill" style="width:88%"></div></div><span>8.8</span></div>
+              <div class="bar"><span>舒适度</span><div class="track"><div class="fill" style="width:84%"></div></div><span>8.4</span></div>
+              <div class="bar"><span>预算压力</span><div class="track"><div class="fill" style="width:68%"></div></div><span>中</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card route-card accent-blue">
+          <div class="photo" style="background-image:url('https://source.unsplash.com/1200x900/?xinjiang,sayram,lake,grassland');">
+            <h3>新疆伊犁 + 赛里木湖</h3>
+          </div>
+          <div class="card-body">
+            <p>湖泊、雪山、草原、公路、花海组合非常强，是三条路线里最像“大片”的选择，但距离长、交通成本高。</p>
+            <div class="tags"><span class="tag">公路风景</span><span class="tag">草原湖泊</span><span class="tag">视觉最强</span></div>
+            <div class="score">
+              <div class="bar"><span>风景密度</span><div class="track"><div class="fill" style="width:96%"></div></div><span>9.6</span></div>
+              <div class="bar"><span>舒适度</span><div class="track"><div class="fill" style="width:70%"></div></div><span>7.0</span></div>
+              <div class="bar"><span>预算压力</span><div class="track"><div class="fill" style="width:88%"></div></div><span>高</span></div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <table class="comparison" aria-label="三条旅行路线对比">
+        <thead>
+          <tr>
+            <th>路线</th>
+            <th>最适合的人</th>
+            <th>七月看点</th>
+            <th>建议交通</th>
+            <th>预算参考</th>
+            <th>注意点</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>广西崇左百色</td>
+            <td>想看水景、田园、峡谷，喜欢轻松拍照</td>
+            <td>德天瀑布丰水期、明仕田园、通灵大峡谷、鹅泉</td>
+            <td>南宁落地后租车或包车</td>
+            <td>约 3800-5600 元/人</td>
+            <td>七月闷热多雨，需防晒防蚊，瀑布景区注意预约</td>
+          </tr>
+          <tr>
+            <td>云南香格里拉丽江大理</td>
+            <td>第一次做长线旅行、想要成熟配套和丰富体验</td>
+            <td>玉龙雪山、纳帕海、松赞林寺、洱海、古城夜景</td>
+            <td>昆明/丽江进出，动车 + 包车</td>
+            <td>约 5200-7800 元/人</td>
+            <td>七月旺季人多，香格里拉海拔高，雨具和保暖都要带</td>
+          </tr>
+          <tr>
+            <td>新疆伊犁赛里木湖</td>
+            <td>追求公路旅行、草原湖泊和震撼风景</td>
+            <td>赛里木湖、果子沟、那拉提、喀拉峻、独库/伊昭沿线</td>
+            <td>乌鲁木齐或伊宁进出，建议包车/自驾</td>
+            <td>约 7800-11800 元/人</td>
+            <td>车程长、旺季住宿贵，部分山区道路需看天气和管制</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="guangxi" class="route-section">
+      <div class="route-hero" style="background-image:url('https://source.unsplash.com/1800x1000/?detian,waterfall,guangxi,karst');">
+        <div>
+          <div class="kicker">路线 1 · 7 天 6 晚</div>
+          <h2>广西崇左百色：瀑布、边境公路与喀斯特田园</h2>
+          <p>推荐节奏：南宁进出，崇左大新住 2 晚，靖西住 2 晚，百色住 1 晚，南宁收尾 1 晚。</p>
+        </div>
+      </div>
+      <div class="split">
+        <div class="timeline">
+          <div class="day"><strong>D1</strong><div><h4>抵达南宁</h4><p>落地后取车或集合，逛三街两巷/青秀山，晚上吃老友粉和酸嘢。</p></div></div>
+          <div class="day"><strong>D2</strong><div><h4>南宁 → 崇左 → 明仕田园</h4><p>走崇左方向，下午竹筏或骑行明仕田园，傍晚拍山水倒影。</p></div></div>
+          <div class="day"><strong>D3</strong><div><h4>德天跨国瀑布 → 边境公路</h4><p>上午德天瀑布，下午沿边公路慢行，安排稻田、界碑、河谷观景点。</p></div></div>
+          <div class="day"><strong>D4</strong><div><h4>通灵大峡谷 → 靖西</h4><p>峡谷徒步看瀑布和热带植物，晚上住靖西，行程强度中等。</p></div></div>
+          <div class="day"><strong>D5</strong><div><h4>鹅泉 → 旧州古镇</h4><p>清晨鹅泉拍晨雾和田园，下午旧州古镇看绣球街巷。</p></div></div>
+          <div class="day"><strong>D6</strong><div><h4>靖西 → 百色</h4><p>可选浩坤湖或百色起义纪念园，傍晚回到城市休整。</p></div></div>
+          <div class="day"><strong>D7</strong><div><h4>百色/南宁返程</h4><p>根据返程交通安排半日市区或直接回南宁。</p></div></div>
+        </div>
+        <aside class="panel">
+          <h3>预算与风景</h3>
+          <div class="budget">
+            <div class="budget-row"><span>住宿 6 晚</span><b>1200-2100 元/人</b></div>
+            <div class="budget-row"><span>租车/包车/油费</span><b>900-1600 元/人</b></div>
+            <div class="budget-row"><span>门票与体验</span><b>550-900 元/人</b></div>
+            <div class="budget-row"><span>餐饮</span><b>900-1300 元/人</b></div>
+            <div class="budget-row"><span>机动费用</span><b>250-500 元/人</b></div>
+          </div>
+          <div class="highlight">适合：想控制预算、喜欢山水田园、不想每天赶太多景点。七月雨水多，德天瀑布通常更有气势。</div>
+          <div class="scenery">
+            <div style="background-image:url('https://source.unsplash.com/800x600/?karst,river,china');"><span>明仕田园骑行</span></div>
+            <div style="background-image:url('https://source.unsplash.com/800x600/?waterfall,tropical,gorge');"><span>峡谷瀑布步道</span></div>
+            <div style="background-image:url('https://source.unsplash.com/800x600/?rice,field,mountain');"><span>鹅泉晨雾田野</span></div>
+            <div style="background-image:url('https://source.unsplash.com/800x600/?border,road,mountain');"><span>边境公路风景</span></div>
+          </div>
+        </aside>
       </div>
     </section>
 
-    <section class="panel" id="education" aria-hidden="true">
-      <div class="terminal">
-        <pre class="terminal-output" aria-live="polite"></pre>
+    <section id="yunnan" class="route-section">
+      <div class="route-hero" style="background-image:url('https://source.unsplash.com/1800x1000/?yunnan,snow,mountain,old,town');">
+        <div>
+          <div class="kicker">路线 2 · 7 天 6 晚</div>
+          <h2>云南香格里拉丽江大理：雪山、古城、湖泊与高原草甸</h2>
+          <p>推荐节奏：丽江进，香格里拉 2 晚，丽江 2 晚，大理 2 晚，或反向从大理进入。</p>
+        </div>
+      </div>
+      <div class="split">
+        <div class="timeline">
+          <div class="day"><strong>D1</strong><div><h4>抵达丽江</h4><p>适应海拔，晚上古城散步，不安排高强度项目。</p></div></div>
+          <div class="day"><strong>D2</strong><div><h4>玉龙雪山 → 蓝月谷</h4><p>上午雪山索道，下午蓝月谷，晚上回丽江休息。</p></div></div>
+          <div class="day"><strong>D3</strong><div><h4>丽江 → 虎跳峡 → 香格里拉</h4><p>沿金沙江峡谷北上，傍晚到独克宗古城。</p></div></div>
+          <div class="day"><strong>D4</strong><div><h4>松赞林寺 → 纳帕海</h4><p>上午寺院建筑与藏区文化，下午纳帕海环线看草甸和水鸟。</p></div></div>
+          <div class="day"><strong>D5</strong><div><h4>香格里拉 → 丽江/沙溪</h4><p>回程可加沙溪古镇，节奏更安静，适合拍人文街巷。</p></div></div>
+          <div class="day"><strong>D6</strong><div><h4>丽江 → 大理洱海</h4><p>动车或包车到大理，环洱海选生态廊道、喜洲、双廊。</p></div></div>
+          <div class="day"><strong>D7</strong><div><h4>苍山/古城 → 返程</h4><p>上午大理古城或苍山，下午从大理或昆明返程。</p></div></div>
+        </div>
+        <aside class="panel accent-amber">
+          <h3>预算与风景</h3>
+          <div class="budget">
+            <div class="budget-row"><span>住宿 6 晚</span><b>1800-3200 元/人</b></div>
+            <div class="budget-row"><span>动车/包车/当地交通</span><b>1000-1800 元/人</b></div>
+            <div class="budget-row"><span>门票与索道</span><b>900-1500 元/人</b></div>
+            <div class="budget-row"><span>餐饮</span><b>1100-1700 元/人</b></div>
+            <div class="budget-row"><span>机动费用</span><b>400-700 元/人</b></div>
+          </div>
+          <div class="highlight">适合：第一次带朋友或家人做长线旅行。七月香格里拉凉爽但雨水多，雪山和寺院需要提前预约和留出天气弹性。</div>
+          <div class="scenery">
+            <div style="background-image:url('https://source.unsplash.com/800x600/?jade,dragon,snow,mountain');"><span>玉龙雪山与蓝月谷</span></div>
+            <div style="background-image:url('https://source.unsplash.com/800x600/?tibetan,monastery,yunnan');"><span>松赞林寺金顶</span></div>
+            <div style="background-image:url('https://source.unsplash.com/800x600/?grassland,lake,yunnan');"><span>纳帕海草甸</span></div>
+            <div style="background-image:url('https://source.unsplash.com/800x600/?erhai,lake,dali');"><span>洱海环线</span></div>
+          </div>
+        </aside>
       </div>
     </section>
 
-    <section class="panel" id="experience" aria-hidden="true">
-      <div class="terminal">
-        <pre class="terminal-output" aria-live="polite"></pre>
+    <section id="xinjiang" class="route-section">
+      <div class="route-hero" style="background-image:url('https://source.unsplash.com/1800x1000/?sayram,lake,xinjiang,grassland');">
+        <div>
+          <div class="kicker">路线 3 · 7 天 6 晚</div>
+          <h2>新疆伊犁赛里木湖：草原湖泊、公路大片与雪山远景</h2>
+          <p>推荐节奏：伊宁进出更省时间；如果机票更合适，也可乌鲁木齐进、伊宁出。</p>
+        </div>
+      </div>
+      <div class="split">
+        <div class="timeline">
+          <div class="day"><strong>D1</strong><div><h4>抵达伊宁</h4><p>喀赞其民俗街、六星街，晚上吃手抓饭、烤包子、冰淇淋。</p></div></div>
+          <div class="day"><strong>D2</strong><div><h4>伊宁 → 赛里木湖</h4><p>环湖看雪山、草坡、湖湾，傍晚住景区外或果子沟附近。</p></div></div>
+          <div class="day"><strong>D3</strong><div><h4>果子沟 → 霍城/昭苏</h4><p>果子沟大桥观景，七月可看薰衣草余韵，继续去昭苏草原。</p></div></div>
+          <div class="day"><strong>D4</strong><div><h4>夏塔古道或昭苏草原</h4><p>雪山、河谷、草甸组合，体力允许可安排轻徒步。</p></div></div>
+          <div class="day"><strong>D5</strong><div><h4>特克斯 → 喀拉峻</h4><p>八卦城短停，下午喀拉峻草原看人体草原和雪岭云杉。</p></div></div>
+          <div class="day"><strong>D6</strong><div><h4>那拉提草原</h4><p>空中草原或河谷草原择一深玩，减少坐车疲劳。</p></div></div>
+          <div class="day"><strong>D7</strong><div><h4>那拉提/伊宁返程</h4><p>根据航班时间回伊宁，沿途安排观景停车点。</p></div></div>
+        </div>
+        <aside class="panel accent-blue">
+          <h3>预算与风景</h3>
+          <div class="budget">
+            <div class="budget-row"><span>住宿 6 晚</span><b>2600-4600 元/人</b></div>
+            <div class="budget-row"><span>包车/自驾/油费</span><b>2500-3800 元/人</b></div>
+            <div class="budget-row"><span>门票与区间车</span><b>1000-1600 元/人</b></div>
+            <div class="budget-row"><span>餐饮</span><b>1300-1900 元/人</b></div>
+            <div class="budget-row"><span>机动费用</span><b>400-900 元/人</b></div>
+          </div>
+          <div class="highlight">适合：最看重“路上风景”和照片冲击力的人。七月是伊犁旺季，要尽早订车和住宿，并预留天气与道路调整空间。</div>
+          <div class="scenery">
+            <div style="background-image:url('https://source.unsplash.com/800x600/?alpine,lake,xinjiang');"><span>赛里木湖环湖</span></div>
+            <div style="background-image:url('https://source.unsplash.com/800x600/?mountain,bridge,valley');"><span>果子沟山谷</span></div>
+            <div style="background-image:url('https://source.unsplash.com/800x600/?grassland,horses,xinjiang');"><span>喀拉峻草原</span></div>
+            <div style="background-image:url('https://source.unsplash.com/800x600/?nalati,grassland');"><span>那拉提公路</span></div>
+          </div>
+        </aside>
       </div>
     </section>
 
-    <section class="panel" id="direction" aria-hidden="true">
-      <div class="terminal">
-        <pre class="terminal-output" aria-live="polite"></pre>
+    <section id="recommend">
+      <div class="section-head">
+        <div>
+          <h2>最终推荐</h2>
+          <p class="note">如果现在就要选一个七月最值得做成正式旅行的方向，我会把“新疆伊犁赛里木湖”放第一，但如果同行人不想长时间坐车，云南会是更稳的选择。</p>
+        </div>
+      </div>
+      <div class="recommend">
+        <div class="rank">
+          <div class="rank-item"><b>1</b><div><h3>新疆伊犁赛里木湖</h3><p>视觉冲击最强，七月草原、湖泊、雪山、公路都在线，适合重点展示“路上风景”。</p></div></div>
+          <div class="rank-item"><b>2</b><div><h3>云南香格里拉丽江大理</h3><p>体验最均衡，交通和住宿成熟，适合多人同行和第一次做完整旅行计划。</p></div></div>
+          <div class="rank-item"><b>3</b><div><h3>广西崇左百色</h3><p>预算友好、瀑布田园漂亮，适合短假期或想避开高海拔的人。</p></div></div>
+        </div>
+        <div class="panel">
+          <h3>下一步可以这样定稿</h3>
+          <p>确认出发城市、人数、准确日期后，把往返机票/高铁、住宿档位和包车价格补进去，预算会从“区间估算”变成“可执行清单”。</p>
+          <p>如果要继续做成 PPT，可以直接用这个 HTML 的内容拆成 12-16 页：封面、总览、三路线对比、每条路线 3 页、预算页、推荐页。</p>
+          <div class="highlight">当前默认：7 天 6 晚、2 人、舒适型、不含出发地往返大交通。资料核对日期：2026-06-25。</div>
+        </div>
       </div>
     </section>
 
-    <section class="panel" id="honors" aria-hidden="true">
-      <div class="terminal">
-        <pre class="terminal-output" aria-live="polite"></pre>
-      </div>
+    <section class="sources">
+      <strong>资料与图片说明</strong>
+      <p>景点信息参考公开资料；预算为规划估算，实际价格会随出发城市、航班、住宿档位、包车车型和旺季余量变化。页面中的风景图使用 Unsplash 动态图片源，联网打开效果最佳。</p>
+      <ul>
+        <li><a href="https://zh.wikipedia.org/wiki/%E5%BE%B7%E5%A4%A9%E7%80%91%E5%B8%83">德天瀑布资料</a>：位置、跨国瀑布、丰水期等信息。</li>
+        <li><a href="https://zh.wikipedia.org/wiki/%E5%9B%BD%E5%AE%B65A%E7%BA%A7%E6%97%85%E6%B8%B8%E6%99%AF%E5%8C%BA">国家 5A 级旅游景区列表</a>：德天跨国瀑布、百色起义纪念园、赛里木湖等评级参考。</li>
+        <li><a href="https://en.wikipedia.org/wiki/Shangri-La%2C_Yunnan">Shangri-La, Yunnan</a>：香格里拉海拔、气候、松赞林寺、普达措等参考。</li>
+        <li><a href="https://en.wikipedia.org/wiki/Dali_Town%2C_Yunnan">Dali Town, Yunnan</a>：大理古城、苍山洱海、交通等参考。</li>
+        <li><a href="https://en.wikipedia.org/wiki/Sayram_Lake">Sayram Lake</a>：赛里木湖位置、海拔、环湖旅游设施等参考。</li>
+      </ul>
     </section>
-
-    <section class="panel" id="resume" aria-hidden="true">
-      <div class="terminal">
-        <pre class="terminal-output" aria-live="polite"></pre>
-      </div>
-    </section>
-
-    <footer data-i18n="footer">Last updated: 2026</footer>
   </main>
-
-  <script>
-    const content = {
-      zh: {
-        intro: "悉尼大学计算机科学硕士，研究兴趣包括网络安全、人工智能安全应用与自动化漏洞发现。",
-        name: "李周",
-        navEmail: "Email",
-        navEducation: "教育经历",
-        navExperience: "学习经历",
-        navDirection: "学习方向",
-        navHonors: "个人荣誉",
-        navResume: "简历↗",
-        footer: "Last updated: 2026",
-        resumeUrl: "resume-cn.html",
-        panels: {
-          email: `> open email
-
-个人信息
-- 姓名：李周 / Zhou Li
-- 性别：男
-- 出生年月：2002/1/26
-- 籍贯：江苏南京
-- 专业：计算机科学
-- 学历：硕士
-- 目前院校：悉尼大学
-- 爱好：健身、骑行
-
-联系方式
-- Phone:
-- E-mail:
-- GitHub: https://github.com/zhli0126`,
-          education: `> open education
-
-教育经历
-- 南京工业职业技术大学
-  本科，2020.9 - 2024.6
-- 悉尼大学
-  硕士，2025.8 - 至今`,
-          experience: `> open learning-experience
-
-学习经历
-- 2022年参加星烛创业项目，担任全栈工程师。
-- 2022年参加蓝桥杯 Python 组别比赛，获得省二等奖。
-- 2023-2024年参加全国高校硕士招生考试，报考南京航空航天大学，计算机专业 408 统考科目分数 123。
-- 2025年在悉尼大学学习计算机科学，主攻方向为网络安全。
-- 2026年在 Hack The Box 等平台学习，并利用网络安全知识在 HackerOne 等 bug bounty 平台寻找漏洞并提交报告。`,
-          direction: `> open learning-direction
-
-学习方向
-- 本科均分为 85，硕士目前 WAM 为 87。
-- 在悉尼大学攻读计算机科学与技术专业至 2027.6，主攻方向为网络安全，已学习 Web 渗透、安卓逆向、密码学等相关知识。
-- 研究兴趣包括移动系统中的隐私与安全、人工智能在安全领域的应用、行为生物特征识别。
-- 在 HTB 的 Discord 平台加深学习网络安全，并达到 hacker level。
-- 继续在 HackerOne bug bounty 平台进行漏洞查找并报告。
-- 将 AI 和网络安全协同，构建自动化查找漏洞的方案。
-
-掌握技能及专业认证
-- 全国计算机二级。
-- 熟练应用 C、Java、Python 等编程语言。
-- 熟练应用 ChatGPT o1、editGPT、Sora 等大语言模型。
-- 具备 CTF 与靶场实操经验，熟悉 Web 安全、渗透测试和基础逆向分析。
-- 英语：CET-4，CET-6，雅思 7 分。`,
-          honors: `> open honors
-
-个人荣誉
-- 2022年获得蓝桥杯省二等奖。
-- 2022年星烛创识获得南京市紫金科创创业基金二等奖。
-- 2023-2024学年获得南京工业职业技术大学本科二等奖学金。
-- 2025年获得悉尼大学 Python 设计一等奖。
-- 2026年获得 HackerOne 奖金 1000 美元。`,
-          resume: `> open resume
-
-简历制作中。
-未来这里会根据当前语言跳转到中文简历页面：
-resume-cn.html`
-        }
-      },
-      en: {
-        intro: "Master of Computer Science student at the University of Sydney, interested in cybersecurity, AI for security, and automated vulnerability discovery.",
-        name: "Zhou Li",
-        navEmail: "Email",
-        navEducation: "Education",
-        navExperience: "Learning Experience",
-        navDirection: "Study Interests",
-        navHonors: "Honors",
-        navResume: "CV↗",
-        footer: "Last updated: 2026",
-        resumeUrl: "cv-en.html",
-        panels: {
-          email: `> open email
-
-Personal Information
-- Name: Zhou Li
-- Gender: Male
-- Date of Birth: 2002/1/26
-- Hometown: Nanjing, Jiangsu, China
-- Major: Computer Science
-- Degree Level: Master's
-- Current University: The University of Sydney
-- Interests: Fitness, cycling
-
-Contact
-- Phone:
-- E-mail:
-- GitHub: https://github.com/zhli0126`,
-          education: `> open education
-
-Education Background
-- Nanjing Vocational University of Industry Technology
-  Bachelor, 2020.9 - 2024.6
-- The University of Sydney
-  Master, 2025.8 - Present`,
-          experience: `> open learning-experience
-
-Learning Experience
-- Participated in the Xingzhu entrepreneurship project in 2022 as a full-stack engineer.
-- Participated in the Lanqiao Cup Python competition in 2022 and won the provincial second prize.
-- Took the National Postgraduate Entrance Examination in 2023-2024, applying for Computer Science at Nanjing University of Aeronautics and Astronautics, with a score of 123 in the 408 CS subject.
-- Started studying Computer Science at the University of Sydney in 2025, focusing on cybersecurity.
-- In 2026, studied on platforms such as Hack The Box and submitted vulnerability reports on bug bounty platforms such as HackerOne.`,
-          direction: `> open study-interests
-
-Study Interests
-- Undergraduate average score: 85. Current master's WAM: 87.
-- Studying Computer Science at the University of Sydney until 2027.6, focusing on cybersecurity. Current learning areas include web penetration testing, Android reverse engineering, and cryptography.
-- Research interests include privacy and security in mobile systems, AI applications in security, and behavioral biometrics.
-- Continued cybersecurity learning on the HTB Discord platform and reached hacker level.
-- Continuing vulnerability discovery and reporting on HackerOne.
-- Exploring ways to combine AI and cybersecurity to build automated vulnerability discovery workflows.
-
-Skills and Certifications
-- National Computer Rank Examination Level 2.
-- Proficient in C, Java, Python, and related programming languages.
-- Experienced with large language models and tools including ChatGPT o1, editGPT, and Sora.
-- Practical experience with CTFs and training labs; familiar with web security, penetration testing, and basic reverse engineering.
-- English: CET-4, CET-6, IELTS 7.`,
-          honors: `> open honors
-
-Honors
-- Lanqiao Cup Provincial Second Prize, 2022.
-- Nanjing Zijin Science and Technology Innovation Entrepreneurship Fund Second Prize for Xingzhu Innovation, 2022.
-- Undergraduate Second-Class Scholarship, Nanjing Vocational University of Industry Technology, 2023-2024.
-- First Prize in Python Design at the University of Sydney, 2025.
-- HackerOne bounty of USD 1,000, 2026.`,
-          resume: `> open cv
-
-CV page under construction.
-This item is reserved for a future language-aware redirect:
-cv-en.html`
-        }
-      }
-    };
-
-    const buttons = document.querySelectorAll("[data-panel]");
-    const panels = document.querySelectorAll(".panel");
-    const languageButtons = document.querySelectorAll("[data-lang-button]");
-    let currentLanguage = "zh";
-    let activeTyping = 0;
-    const resumePagesReady = false;
-
-    function escapeHtml(value) {
-      return value
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-    function linkify(value) {
-      const escaped = escapeHtml(value);
-      return escaped
-        .replace(
-          /(https?:\/\/[^\s]+)/g,
-          '<a href="$1" target="_blank" rel="noreferrer">$1</a>'
-        )
-        .replace(
-          /([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})/gi,
-          '<a href="mailto:$1">$1</a>'
-        );
-    }
-
-    function closePanels() {
-      activeTyping += 1;
-
-      panels.forEach((panel) => {
-        panel.classList.remove("is-open");
-        panel.setAttribute("aria-hidden", "true");
-        const output = panel.querySelector(".terminal-output");
-        output.textContent = "";
-        output.classList.remove("is-typing");
-      });
-    }
-
-    function typeTerminal(panel) {
-      const runId = ++activeTyping;
-      const output = panel.querySelector(".terminal-output");
-      const text = content[currentLanguage].panels[panel.id];
-      let index = 0;
-
-      output.textContent = "";
-      output.classList.add("is-typing");
-
-      function typeNext() {
-        if (runId !== activeTyping || !panel.classList.contains("is-open")) {
-          return;
-        }
-
-        output.textContent = text.slice(0, index);
-
-        if (index < text.length) {
-          index += 1;
-          window.setTimeout(typeNext, text[index - 1] === "\n" ? 70 : 14);
-          return;
-        }
-
-        output.classList.remove("is-typing");
-        output.innerHTML = linkify(text);
-      }
-
-      typeNext();
-    }
-
-    function setLanguage(language) {
-      currentLanguage = language;
-      document.documentElement.lang = language === "zh" ? "zh-CN" : "en";
-
-      document.querySelectorAll("[data-i18n]").forEach((element) => {
-        const key = element.dataset.i18n;
-        element.textContent = content[language][key];
-      });
-
-      languageButtons.forEach((button) => {
-        button.classList.toggle("is-active", button.dataset.langButton === language);
-      });
-
-      closePanels();
-    }
-
-    buttons.forEach((button) => {
-      button.addEventListener("click", () => {
-        const target = document.getElementById(button.dataset.panel);
-        const isOpen = target.classList.contains("is-open");
-
-        closePanels();
-
-        if (!isOpen) {
-          if (button.dataset.panel === "resume" && resumePagesReady) {
-            window.location.href = content[currentLanguage].resumeUrl;
-            return;
-          }
-
-          target.classList.add("is-open");
-          target.setAttribute("aria-hidden", "false");
-          typeTerminal(target);
-        }
-      });
-    });
-
-    languageButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        setLanguage(button.dataset.langButton);
-      });
-    });
-  </script>
 </body>
 </html>
