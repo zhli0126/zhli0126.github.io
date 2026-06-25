@@ -3,682 +3,1223 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>七月旅行计划 | 广西 · 云南 · 新疆</title>
+  <title>七月旅行计划 | 三条路线细化版</title>
   <style>
     :root {
       --ink: #17211f;
       --muted: #66736f;
-      --paper: #fbfaf5;
+      --paper: #fbfaf4;
+      --surface: #fffdf8;
+      --soft: #edf4ef;
       --line: rgba(23, 33, 31, .14);
-      --green: #2e6b57;
-      --teal: #167b8c;
-      --amber: #d89531;
-      --rose: #a94e45;
-      --blue: #285f9f;
-      --white: #fffdf8;
-      --shadow: 0 18px 45px rgba(32, 44, 40, .16);
-      --radius: 22px;
+      --green: #2f6b57;
+      --teal: #177c89;
+      --amber: #d58b24;
+      --blue: #2d64a3;
+      --rose: #a95146;
+      --shadow: 0 18px 48px rgba(22, 39, 35, .14);
     }
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
+      min-height: 100vh;
       color: var(--ink);
-      background: var(--paper);
+      background:
+        radial-gradient(circle at 15% 0%, rgba(47, 107, 87, .13), transparent 30%),
+        radial-gradient(circle at 92% 8%, rgba(213, 139, 36, .12), transparent 28%),
+        var(--paper);
       font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif;
-      line-height: 1.6;
+      line-height: 1.58;
     }
 
+    button { font: inherit; }
     a { color: inherit; }
+
+    .shell {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
     .hero {
-      min-height: 86vh;
+      min-height: 390px;
       display: grid;
       align-items: end;
-      position: relative;
-      color: white;
       overflow: hidden;
+      color: white;
+      border-radius: 0 0 34px 34px;
       background:
-        linear-gradient(180deg, rgba(10, 25, 24, .15), rgba(10, 25, 24, .82)),
-        url("https://source.unsplash.com/1800x1200/?china,travel,mountain,road") center/cover;
+        linear-gradient(135deg, rgba(8, 28, 25, .96), rgba(47, 107, 87, .86)),
+        linear-gradient(90deg, rgba(255, 255, 255, .08) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(255, 255, 255, .08) 1px, transparent 1px);
+      background-size: auto, 52px 52px, 52px 52px;
+      box-shadow: var(--shadow);
     }
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: auto 0 0;
-      height: 34%;
-      background: linear-gradient(180deg, transparent, var(--paper));
-      opacity: .72;
-      pointer-events: none;
-    }
+
     .hero-inner {
-      position: relative;
-      z-index: 1;
-      width: min(1160px, calc(100% - 40px));
-      margin: 0 auto 76px;
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 46px 0;
     }
-    .kicker {
+
+    .eyebrow {
       display: inline-flex;
-      gap: 10px;
       align-items: center;
+      gap: 8px;
       padding: 7px 12px;
-      border: 1px solid rgba(255, 255, 255, .38);
-      background: rgba(255, 255, 255, .12);
-      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, .34);
       border-radius: 999px;
+      background: rgba(255, 255, 255, .12);
+      backdrop-filter: blur(12px);
       font-size: 13px;
-      letter-spacing: 0;
+      color: rgba(255, 255, 255, .92);
     }
+
     h1 {
-      margin: 22px 0 18px;
-      font-size: clamp(44px, 7vw, 86px);
-      line-height: .98;
+      max-width: 920px;
+      margin: 18px 0 12px;
+      font-size: clamp(40px, 6vw, 76px);
+      line-height: 1.02;
       letter-spacing: 0;
-      max-width: 900px;
     }
+
     .hero p {
-      max-width: 720px;
-      font-size: 20px;
+      max-width: 780px;
       margin: 0;
       color: rgba(255, 255, 255, .88);
+      font-size: 19px;
     }
-    .nav {
+
+    .tabs-wrap {
       position: sticky;
       top: 0;
-      z-index: 20;
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      flex-wrap: wrap;
-      padding: 12px 16px;
-      background: rgba(251, 250, 245, .86);
-      backdrop-filter: blur(14px);
+      z-index: 12;
+      padding: 12px 0;
       border-bottom: 1px solid var(--line);
+      background: rgba(251, 250, 244, .9);
+      backdrop-filter: blur(16px);
     }
-    .nav a, .print-btn {
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .tab {
+      min-height: 48px;
       border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 8px 13px;
-      background: var(--white);
-      text-decoration: none;
+      border-radius: 14px;
+      background: var(--surface);
       color: var(--ink);
-      font-size: 14px;
       cursor: pointer;
+      transition: transform .18s ease, background .18s ease;
     }
-    main {
-      width: min(1160px, calc(100% - 40px));
-      margin: 0 auto;
-      padding: 44px 0 80px;
+
+    .tab:hover { transform: translateY(-1px); }
+
+    .tab.is-active {
+      border-color: transparent;
+      color: white;
+      background: var(--green);
+      box-shadow: 0 10px 28px rgba(47, 107, 87, .23);
     }
-    section { margin: 52px 0; }
+
+    main { padding: 30px 0 70px; }
+
+    .view {
+      display: none;
+      animation: rise .22s ease both;
+    }
+
+    .view.is-active { display: block; }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .section-head {
       display: grid;
       grid-template-columns: 1fr auto;
-      gap: 22px;
+      gap: 24px;
       align-items: end;
-      margin-bottom: 22px;
+      margin: 18px 0;
     }
+
     h2 {
-      margin: 0;
-      font-size: clamp(30px, 4.2vw, 48px);
+      margin: 0 0 10px;
+      font-size: clamp(30px, 4vw, 48px);
       line-height: 1.1;
       letter-spacing: 0;
     }
-    .note {
-      color: var(--muted);
-      font-size: 15px;
-      max-width: 680px;
+
+    h3 {
+      margin: 0 0 10px;
+      font-size: 23px;
+      line-height: 1.22;
     }
+
+    h4 {
+      margin: 0 0 4px;
+      font-size: 17px;
+    }
+
+    .lead {
+      max-width: 780px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .pill {
+      display: inline-flex;
+      width: fit-content;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--green);
+      font-weight: 800;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: minmax(0, 1.14fr) minmax(330px, .86fr);
+      gap: 18px;
+      align-items: start;
+    }
+
     .grid-3 {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
     }
-    .card {
+
+    .card, .map-card, .panel, .day-card, .route-card {
       border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--white);
+      border-radius: 22px;
+      background: rgba(255, 253, 248, .94);
       box-shadow: var(--shadow);
       overflow: hidden;
     }
-    .route-card .photo {
-      height: 210px;
-      background-size: cover;
-      background-position: center;
-      position: relative;
+
+    .panel, .map-card { padding: 20px; }
+
+    .route-card-body {
+      padding: 18px;
     }
-    .route-card .photo::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, transparent, rgba(0, 0, 0, .58));
+
+    .route-card-body h3 {
+      margin: 0 0 10px;
+      color: var(--ink);
     }
-    .route-card h3 {
-      position: absolute;
-      left: 20px;
-      right: 20px;
-      bottom: 16px;
-      z-index: 1;
-      color: white;
-      margin: 0;
-      font-size: 27px;
-      line-height: 1.18;
+
+    .route-card-body p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 15px;
     }
-    .card-body { padding: 20px; }
-    .tags {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin: 14px 0 0;
-    }
-    .tag {
-      display: inline-flex;
-      padding: 4px 9px;
-      border-radius: 999px;
-      background: rgba(46, 107, 87, .1);
-      color: var(--green);
-      font-size: 12px;
-      font-weight: 700;
-    }
-    .score {
+
+    .metric {
       display: grid;
-      gap: 9px;
-      margin-top: 16px;
-    }
-    .bar {
-      display: grid;
-      grid-template-columns: 72px 1fr 34px;
+      grid-template-columns: 74px 1fr 40px;
       gap: 10px;
       align-items: center;
-      font-size: 13px;
+      margin-top: 9px;
       color: var(--muted);
+      font-size: 13px;
     }
+
     .track {
       height: 8px;
+      overflow: hidden;
       border-radius: 999px;
       background: rgba(23, 33, 31, .1);
-      overflow: hidden;
     }
+
     .fill {
       height: 100%;
       border-radius: 999px;
       background: var(--green);
     }
-    .comparison {
+
+    .amber .fill { background: var(--amber); }
+    .blue .fill { background: var(--blue); }
+
+    .verdict-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .verdict-card {
+      min-height: 260px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .verdict-card strong {
+      display: inline-flex;
+      margin-bottom: 14px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--green);
+      font-size: 12px;
+    }
+
+    .verdict-card h3 {
+      margin-bottom: 8px;
+      font-size: 26px;
+    }
+
+    .verdict-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .compare-table td:first-child {
+      width: 116px;
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    .temp-range {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--ink);
+      font-weight: 900;
+    }
+
+    .map-meta {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: start;
+      margin-bottom: 14px;
+    }
+
+    .map-meta p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .map-svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid rgba(23, 33, 31, .1);
+      border-radius: 18px;
+      background:
+        linear-gradient(135deg, rgba(47, 107, 87, .08), rgba(23, 124, 137, .06)),
+        #f9f6ee;
+    }
+
+    .land {
+      fill: rgba(47, 107, 87, .08);
+      stroke: rgba(47, 107, 87, .22);
+      stroke-width: 2;
+    }
+
+    .route-wide {
+      fill: none;
+      stroke: rgba(47, 107, 87, .26);
+      stroke-width: 18;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .route-dots {
+      fill: none;
+      stroke: var(--green);
+      stroke-width: 7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 1 13;
+    }
+
+    .flight {
+      fill: none;
+      stroke: var(--blue);
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-dasharray: 12 12;
+    }
+
+    .pin circle {
+      fill: var(--surface);
+      stroke: var(--green);
+      stroke-width: 5;
+    }
+
+    .pin text {
+      fill: var(--ink);
+      font-size: 20px;
+      font-weight: 900;
+      paint-order: stroke;
+      stroke: rgba(249, 246, 238, .95);
+      stroke-width: 6px;
+      stroke-linejoin: round;
+    }
+
+    .pin-small text { font-size: 17px; }
+    .map-note { fill: var(--muted); font-size: 17px; }
+
+    .north-arrow path {
+      fill: var(--ink);
+      stroke: var(--ink);
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .north-arrow text {
+      fill: var(--ink);
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .summary-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .summary-list div {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 16px;
+      background: var(--soft);
+      font-size: 14px;
+    }
+
+    .summary-list b { color: var(--green); }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .day-card {
+      display: grid;
+      grid-template-columns: 70px 1fr;
+      gap: 14px;
+      padding: 16px;
+      min-height: 176px;
+    }
+
+    .day-badge {
+      display: grid;
+      place-items: center;
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      color: white;
+      background: var(--green);
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .day-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .day-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 10px;
+    }
+
+    .tag {
+      display: inline-flex;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(47, 107, 87, .1);
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .feature-card {
+      min-height: 210px;
+      border-radius: 22px;
+      padding: 18px;
+      color: var(--ink);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .feature-card strong {
+      display: inline-flex;
+      margin-bottom: 12px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--green);
+      font-size: 12px;
+    }
+
+    .feature-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .budget-table {
       width: 100%;
       border-collapse: collapse;
       overflow: hidden;
       border-radius: 18px;
-      background: var(--white);
+      background: var(--surface);
       box-shadow: var(--shadow);
+      margin-top: 18px;
     }
-    th, td {
+
+    .budget-table th, .budget-table td {
+      padding: 14px;
       border-bottom: 1px solid var(--line);
-      padding: 15px 14px;
       text-align: left;
       vertical-align: top;
-      font-size: 15px;
-    }
-    th {
-      background: #edf3ee;
-      font-size: 13px;
-      color: #41514c;
-    }
-    tr:last-child td { border-bottom: 0; }
-    .route-section {
-      border-top: 1px solid var(--line);
-      padding-top: 52px;
-    }
-    .route-hero {
-      min-height: 360px;
-      border-radius: 30px;
-      overflow: hidden;
-      display: grid;
-      align-items: end;
-      color: white;
-      background-size: cover;
-      background-position: center;
-      box-shadow: var(--shadow);
-      margin-bottom: 24px;
-      position: relative;
-    }
-    .route-hero::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, rgba(8, 24, 23, .82), rgba(8, 24, 23, .18));
-    }
-    .route-hero > div {
-      position: relative;
-      z-index: 1;
-      padding: 34px;
-      max-width: 680px;
-    }
-    .route-hero h2 { color: white; }
-    .route-hero p { color: rgba(255,255,255,.88); margin: 12px 0 0; }
-    .split {
-      display: grid;
-      grid-template-columns: 1.08fr .92fr;
-      gap: 18px;
-      align-items: start;
-    }
-    .timeline {
-      display: grid;
-      gap: 12px;
-    }
-    .day {
-      display: grid;
-      grid-template-columns: 70px 1fr;
-      gap: 14px;
-      padding: 14px;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: var(--white);
-    }
-    .day strong {
-      display: grid;
-      place-items: center;
-      height: 48px;
-      border-radius: 14px;
-      background: #eef4f1;
-      color: var(--green);
-      font-size: 18px;
-    }
-    .day h4 { margin: 0 0 4px; font-size: 18px; }
-    .day p { margin: 0; color: var(--muted); font-size: 14px; }
-    .panel {
-      padding: 20px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--white);
-      box-shadow: var(--shadow);
-    }
-    .panel h3 {
-      margin: 0 0 14px;
-      font-size: 23px;
-    }
-    .budget {
-      display: grid;
-      gap: 10px;
-    }
-    .budget-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 12px;
-      padding-bottom: 10px;
-      border-bottom: 1px dashed var(--line);
-      font-size: 15px;
-    }
-    .budget-row:last-child { border-bottom: 0; padding-bottom: 0; }
-    .highlight {
-      margin-top: 16px;
-      padding: 16px;
-      border-radius: 18px;
-      background: #f5efe2;
-      color: #5b3b11;
-    }
-    .scenery {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-top: 16px;
-    }
-    .scenery div {
-      min-height: 86px;
-      padding: 14px;
-      border-radius: 16px;
-      color: white;
-      display: grid;
-      align-content: end;
-      background-size: cover;
-      background-position: center;
-      overflow: hidden;
-      position: relative;
-    }
-    .scenery div::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, transparent, rgba(0,0,0,.62));
-    }
-    .scenery span {
-      position: relative;
-      z-index: 1;
-      font-weight: 800;
       font-size: 14px;
     }
-    .recommend {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
-    .rank {
-      display: grid;
-      gap: 12px;
-    }
-    .rank-item {
-      display: grid;
-      grid-template-columns: 46px 1fr;
-      gap: 14px;
-      padding: 16px;
-      border-radius: 18px;
-      border: 1px solid var(--line);
-      background: var(--white);
-    }
-    .rank-item b {
-      display: grid;
-      place-items: center;
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      color: white;
-      background: var(--green);
-    }
-    .rank-item h3 { margin: 0 0 3px; font-size: 19px; }
-    .rank-item p { margin: 0; color: var(--muted); font-size: 14px; }
-    .sources {
+
+    .budget-table th {
+      background: #edf3ee;
+      color: #40524c;
       font-size: 13px;
-      color: var(--muted);
+    }
+
+    .budget-table tr:last-child td { border-bottom: 0; }
+
+    .placeholder-route {
+      min-height: 520px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .footer-note {
+      margin-top: 26px;
+      padding-top: 18px;
       border-top: 1px solid var(--line);
-      padding-top: 24px;
-    }
-    .sources ul { margin: 10px 0 0; padding-left: 20px; }
-    .sources li { margin: 6px 0; }
-    .accent-teal .fill, .accent-teal .rank-item b { background: var(--teal); }
-    .accent-amber .fill, .accent-amber .rank-item b { background: var(--amber); }
-    .accent-blue .fill, .accent-blue .rank-item b { background: var(--blue); }
-
-    @media (max-width: 900px) {
-      .grid-3, .split, .recommend { grid-template-columns: 1fr; }
-      .section-head { grid-template-columns: 1fr; }
-      .comparison { display: block; overflow-x: auto; }
-      th, td { min-width: 170px; }
-      .hero-inner { margin-bottom: 46px; }
-      .route-hero { min-height: 320px; }
-      .route-hero > div { padding: 24px; }
+      color: var(--muted);
+      font-size: 13px;
     }
 
-    @media (max-width: 560px) {
-      main, .hero-inner { width: min(100% - 24px, 1160px); }
-      .hero { min-height: 78vh; }
+    @media (max-width: 980px) {
+      .tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-2, .grid-3, .verdict-grid, .timeline, .feature-grid, .placeholder-route { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 620px) {
+      .shell, .hero-inner { width: calc(100% - 24px); }
+      .hero { min-height: 440px; border-radius: 0 0 24px 24px; }
       .hero p { font-size: 17px; }
-      .day { grid-template-columns: 1fr; }
-      .day strong { width: 64px; }
-      .scenery { grid-template-columns: 1fr; }
-      .nav { justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; }
-      .nav a, .print-btn { white-space: nowrap; }
-    }
-
-    @media print {
-      .nav, .print-btn { display: none; }
-      body { background: white; }
-      .hero { min-height: 720px; }
-      section { break-inside: avoid; }
-      .card, .panel, .comparison, .route-hero { box-shadow: none; }
+      .section-head, .map-meta { grid-template-columns: 1fr; }
+      .tabs {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 2px;
+      }
+      .tab {
+        min-width: 136px;
+        min-height: 44px;
+        white-space: nowrap;
+      }
+      .pill { white-space: normal; }
+      .day-card { grid-template-columns: 1fr; }
+      .budget-table { display: block; overflow-x: auto; }
+      .budget-table th, .budget-table td { min-width: 150px; }
     }
   </style>
 </head>
 <body>
   <header class="hero">
     <div class="hero-inner">
-      <div class="kicker">2026 年 7 月旅行方案 · 7 天 6 晚默认版</div>
-      <h1>广西山水、云南雪山古城、新疆湖泊草原</h1>
-      <p>三条路线都适合七月出行。本页按“2 人出行、舒适型住宿、含当地交通和门票、不含出发地往返大交通”的口径做预算，后续可按你的出发城市精修。</p>
+      <span class="eyebrow">七月旅行计划 · 三条路线保留 · 分路线细化</span>
+      <h1>三条路线都保留，按目的地逐步细化</h1>
+      <p>页面以按钮切换不同方向：方案对比、广西详细路线、云南详细路线和新疆伊犁路线。当前版本先不放照片，重点把路线逻辑、每天行程和取舍讲清楚。</p>
     </div>
   </header>
 
-  <nav class="nav">
-    <a href="#compare">方案对比</a>
-    <a href="#guangxi">广西崇左百色</a>
-    <a href="#yunnan">云南香格里拉丽江大理</a>
-    <a href="#xinjiang">新疆伊犁赛里木湖</a>
-    <a href="#recommend">推荐排序</a>
-    <button class="print-btn" onclick="window.print()">打印 / 存成 PDF</button>
-  </nav>
+  <div class="tabs-wrap">
+    <nav class="shell tabs" aria-label="旅行方案导航">
+      <button class="tab" type="button" data-target="compare">方案对比</button>
+      <button class="tab is-active" type="button" data-target="guangxi">广西详细路线</button>
+      <button class="tab" type="button" data-target="yunnan">云南路线</button>
+      <button class="tab" type="button" data-target="xinjiang">新疆路线</button>
+    </nav>
+  </div>
 
-  <main>
-    <section id="compare">
+  <main class="shell">
+    <section id="compare" class="view" aria-labelledby="compare-title">
       <div class="section-head">
         <div>
-          <h2>三条路线怎么选</h2>
-          <p class="note">如果目标是“路上风景震撼”，新疆最强；如果想平衡预算、行程强度和出片率，云南最稳；如果想看瀑布、田园、峡谷且预算友好，广西很适合。</p>
+          <h2 id="compare-title">三条路线怎么选</h2>
+          <p class="lead">七月出行最需要比较的是天气体感、雨季风险、车程强度和预算。下面按“普通舒适玩法、2-4 人同行、租车自驾、机票价格浮动较大”的口径做决策对比。</p>
         </div>
+        <span class="pill">结论：广西最省心，云南最均衡，新疆最震撼</span>
       </div>
 
-      <div class="grid-3">
-        <article class="card route-card">
-          <div class="photo" style="background-image:url('https://source.unsplash.com/1200x900/?guangxi,waterfall,karst');">
-            <h3>广西崇左 + 百色</h3>
-          </div>
-          <div class="card-body">
-            <p>喀斯特田园、水量充沛的跨国瀑布、边境公路和靖西山水，适合想要轻松拍照和避开过度商业化的人。</p>
-            <div class="tags"><span class="tag">预算友好</span><span class="tag">瀑布</span><span class="tag">田园</span></div>
-            <div class="score">
-              <div class="bar"><span>风景密度</span><div class="track"><div class="fill" style="width:82%"></div></div><span>8.2</span></div>
-              <div class="bar"><span>舒适度</span><div class="track"><div class="fill" style="width:78%"></div></div><span>7.8</span></div>
-              <div class="bar"><span>预算压力</span><div class="track"><div class="fill" style="width:55%"></div></div><span>低</span></div>
-            </div>
-          </div>
+      <div class="verdict-grid">
+        <article class="verdict-card">
+          <strong>最稳妥</strong>
+          <h3>广西崇左 + 靖西 + 河池</h3>
+          <p>预算相对友好，南宁进出方便，6 天能形成完整闭环。七月瀑布和河湖水景更有气势，但湿热、雷阵雨和山路积水需要重点关注。</p>
+          <div class="day-tags"><span class="tag">省钱</span><span class="tag">水景好</span><span class="tag">天气热</span></div>
         </article>
 
-        <article class="card route-card accent-amber">
-          <div class="photo" style="background-image:url('https://source.unsplash.com/1200x900/?yunnan,lijiang,shangri-la,mountain');">
-            <h3>云南香格里拉 + 丽江 + 大理</h3>
-          </div>
-          <div class="card-body">
-            <p>雪山、古城、湖泊、草甸和藏区风情集中出现，交通成熟，七月旺季热闹但体验稳定。</p>
-            <div class="tags"><span class="tag">成熟线路</span><span class="tag">雪山古城</span><span class="tag">慢旅行</span></div>
-            <div class="score">
-              <div class="bar"><span>风景密度</span><div class="track"><div class="fill" style="width:88%"></div></div><span>8.8</span></div>
-              <div class="bar"><span>舒适度</span><div class="track"><div class="fill" style="width:84%"></div></div><span>8.4</span></div>
-              <div class="bar"><span>预算压力</span><div class="track"><div class="fill" style="width:68%"></div></div><span>中</span></div>
-            </div>
-          </div>
+        <article class="verdict-card">
+          <strong>最均衡</strong>
+          <h3>云南大理 + 丽江 + 香格里拉</h3>
+          <p>温度最舒服，古城、湖泊、雪山和藏区氛围都能覆盖。真正的取舍点是天数：想同时去泸沽湖和梅里雪山，9 天才比较合理。</p>
+          <div class="day-tags"><span class="tag">凉爽</span><span class="tag">层次丰富</span><span class="tag">雨季</span></div>
         </article>
 
-        <article class="card route-card accent-blue">
-          <div class="photo" style="background-image:url('https://source.unsplash.com/1200x900/?xinjiang,sayram,lake,grassland');">
-            <h3>新疆伊犁 + 赛里木湖</h3>
-          </div>
-          <div class="card-body">
-            <p>湖泊、雪山、草原、公路、花海组合非常强，是三条路线里最像“大片”的选择，但距离长、交通成本高。</p>
-            <div class="tags"><span class="tag">公路风景</span><span class="tag">草原湖泊</span><span class="tag">视觉最强</span></div>
-            <div class="score">
-              <div class="bar"><span>风景密度</span><div class="track"><div class="fill" style="width:96%"></div></div><span>9.6</span></div>
-              <div class="bar"><span>舒适度</span><div class="track"><div class="fill" style="width:70%"></div></div><span>7.0</span></div>
-              <div class="bar"><span>预算压力</span><div class="track"><div class="fill" style="width:88%"></div></div><span>高</span></div>
-            </div>
-          </div>
+        <article class="verdict-card">
+          <strong>最出片</strong>
+          <h3>新疆伊犁 + 赛里木湖</h3>
+          <p>七月是草原、湖泊、公路大片的高光期，视觉冲击最强。缺点也明显：旺季价格高、异地还车贵、每天车程都要认真控制。</p>
+          <div class="day-tags"><span class="tag">风景最强</span><span class="tag">旺季</span><span class="tag">车程长</span></div>
         </article>
       </div>
 
-      <table class="comparison" aria-label="三条旅行路线对比">
+      <table class="budget-table compare-table" aria-label="七月三条旅行方案对比">
         <thead>
           <tr>
-            <th>路线</th>
-            <th>最适合的人</th>
-            <th>七月看点</th>
-            <th>建议交通</th>
-            <th>预算参考</th>
-            <th>注意点</th>
+            <th>对比项</th>
+            <th>广西 6 天</th>
+            <th>云南 7-9 天</th>
+            <th>新疆 7-8 天</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>广西崇左百色</td>
-            <td>想看水景、田园、峡谷，喜欢轻松拍照</td>
-            <td>德天瀑布丰水期、明仕田园、通灵大峡谷、鹅泉</td>
-            <td>南宁落地后租车或包车</td>
-            <td>约 3800-5600 元/人</td>
-            <td>七月闷热多雨，需防晒防蚊，瀑布景区注意预约</td>
+            <td>七月天气</td>
+            <td><span class="temp-range">约 28-35 ℃，湿热</span>崇左、靖西、河池一带雨水多，午后雷阵雨常见。优点是德天瀑布、峡谷、湖泊水量更好。</td>
+            <td><span class="temp-range">大理/丽江约 18-28 ℃，香格里拉更凉</span>滇西北处在雨季，温度舒服但云雨多，雪山和梅里日照金山更看天气。</td>
+            <td><span class="temp-range">伊犁白天约 22-32 ℃，早晚和高海拔更冷</span>日晒强、昼夜温差大，赛里木湖、夏塔、那拉提遇到风雨会明显降温。</td>
           </tr>
           <tr>
-            <td>云南香格里拉丽江大理</td>
-            <td>第一次做长线旅行、想要成熟配套和丰富体验</td>
-            <td>玉龙雪山、纳帕海、松赞林寺、洱海、古城夜景</td>
-            <td>昆明/丽江进出，动车 + 包车</td>
-            <td>约 5200-7800 元/人</td>
-            <td>七月旺季人多，香格里拉海拔高，雨具和保暖都要带</td>
+            <td>七月优势</td>
+            <td>水景更饱满，广西山水层次好，整体人均开销较容易控制。</td>
+            <td>气温最舒服，古城、湖泊、雪山、高原寺院类型丰富，适合多人审美差异大的队伍。</td>
+            <td>草原花季尾声和夏季牧场状态好，赛里木湖、喀拉峻、夏塔、那拉提最容易出大片。</td>
           </tr>
           <tr>
-            <td>新疆伊犁赛里木湖</td>
-            <td>追求公路旅行、草原湖泊和震撼风景</td>
-            <td>赛里木湖、果子沟、那拉提、喀拉峻、独库/伊昭沿线</td>
-            <td>乌鲁木齐或伊宁进出，建议包车/自驾</td>
-            <td>约 7800-11800 元/人</td>
-            <td>车程长、旺季住宿贵，部分山区道路需看天气和管制</td>
+            <td>主要风险</td>
+            <td>闷热、暴雨、山路积水、蚊虫；D3 和 D5 景点密度偏高。</td>
+            <td>雨季影响雪山可见度；泸沽湖和梅里雪山都想去时，时间不足会很赶。</td>
+            <td>旺季住宿和租车更贵；路线长，D7 唐布拉到安集海再到乌鲁木齐压力最大。</td>
+          </tr>
+          <tr>
+            <td>行程强度</td>
+            <td>中等。6 天闭环清晰，适合把江州地下长廊做成弹性备选。</td>
+            <td>可控到偏高。7 天适合删泸沽湖，9 天才适合泸沽湖和梅里雪山都去。</td>
+            <td>偏高。每天都有较长路程，最好接受第 8 天从乌鲁木齐返南京。</td>
+          </tr>
+          <tr>
+            <td>人均预算</td>
+            <td><span class="temp-range">约 4500-6500 元</span>机票、租车、油费高速、普通住宿、门票餐饮合计。2 人出行会更高，4 人平摊更友好。</td>
+            <td><span class="temp-range">7 天约 5500-8000 元；9 天约 6500-9500 元</span>天数更长、住宿更多，梅里和泸沽湖都会拉高预算。</td>
+            <td><span class="temp-range">约 8000-12000 元</span>旺季机票、伊犁住宿、SUV/异地还车、景区交通和骑马体验都会明显增加成本。</td>
+          </tr>
+          <tr>
+            <td>花钱重点</td>
+            <td>机票和租车，其次是德天、通灵、三门海等门票和景交。</td>
+            <td>机票、连续住宿、玉龙雪山、丽江演出、梅里段转场。</td>
+            <td>机票、租车/包车、异地还车、旺季住宿、那拉提/喀拉峻景交和骑马。</td>
+          </tr>
+          <tr>
+            <td>适合人群</td>
+            <td>想省心、省预算，看瀑布峡谷湖泊，不介意湿热天气的人。</td>
+            <td>想兼顾舒适度、文化感、雪山湖泊和高原风景的人。</td>
+            <td>最在意视觉冲击、能接受长车程和较高预算的人。</td>
+          </tr>
+          <tr>
+            <td>推荐排序</td>
+            <td>预算优先或假期只有 6 天：首选广西。</td>
+            <td>同行人多、想降低天气体感压力：首选云南。</td>
+            <td>想把七月风景拍到最震撼：首选新疆，但建议预留 D8 返程。</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="feature-grid">
+        <article class="feature-card"><strong>预算口径</strong><h3>先按区间估，不写死</h3><p>机票和住宿会随购买时间浮动很大。当前页面先写决策级预算，等确定最终路线后再查实时航班、酒店和租车价格。</p></article>
+        <article class="feature-card"><strong>天气准备</strong><h3>三条线都要防雨</h3><p>广西要防闷热暴雨，云南要防高原雨季和低温，新疆要防暴晒、昼夜温差和山区突发风雨。</p></article>
+        <article class="feature-card"><strong>我的建议</strong><h3>按时间选路线</h3><p>6 天选广西；7 天选云南压缩版或新疆到乌鲁木齐不返程；9 天以上云南最完整；预算充足且想看大片，再选新疆。</p></article>
+      </div>
+    </section>
+
+    <section id="guangxi" class="view is-active" aria-labelledby="guangxi-title">
+      <div class="section-head">
+        <div>
+          <h2 id="guangxi-title">广西 6 天自驾路线</h2>
+          <p class="lead">第 1 天南京飞南宁，第 2 天从南宁自驾到大新，第 3-5 天深入桂西南山水，第 6 天回到南宁市区及周边收尾。</p>
+        </div>
+        <span class="pill">地图上北下南 · 非精确比例</span>
+      </div>
+
+      <div class="grid-2">
+        <article class="map-card">
+          <div class="map-meta">
+            <div>
+              <h3>南京飞南宁 + 广西自驾环线</h3>
+              <p>蓝色虚线为飞行段，绿色虚线为自驾段。第 5 天是否加入江州地下长廊，作为体力和路况允许时的备选。</p>
+            </div>
+            <span class="pill">6 天 5 晚</span>
+          </div>
+
+          <svg class="map-svg" viewBox="0 0 1100 640" role="img" aria-label="广西六天路线地图，北方朝上">
+            <path class="land" d="M128 190 C238 72 456 48 650 92 C850 138 1002 274 952 430 C908 572 706 608 504 574 C314 542 84 456 128 190 Z" />
+            <text class="map-note" x="104" y="102">中国东南方向示意 · 上北下南</text>
+            <g class="north-arrow" transform="translate(1000 86)">
+              <text x="0" y="-8" text-anchor="middle">N</text>
+              <path d="M0 44 L0 8" />
+              <path d="M0 8 L-10 27 L0 21 L10 27 Z" />
+            </g>
+
+            <path class="flight" d="M824 92 C900 178 910 270 812 394" />
+            <path class="route-wide" d="M812 394 L564 466 L472 432 L388 388 L320 324 L374 206 L520 154 L612 206 L812 394" />
+            <path class="route-dots" d="M812 394 L564 466 L472 432 L388 388 L320 324 L374 206 L520 154 L612 206 L812 394" />
+
+            <g class="pin"><circle cx="824" cy="92" r="18"/><text x="790" y="68">南京</text></g>
+            <g class="pin"><circle cx="812" cy="394" r="18"/><text x="776" y="444">南宁</text></g>
+            <g class="pin pin-small"><circle cx="564" cy="466" r="18"/><text x="520" y="520">大新县</text></g>
+            <g class="pin pin-small"><circle cx="472" cy="432" r="18"/><text x="428" y="408">峒那嶼灣</text></g>
+            <g class="pin pin-small"><circle cx="388" cy="388" r="18"/><text x="300" y="376">德天瀑布</text></g>
+            <g class="pin pin-small"><circle cx="320" cy="324" r="18"/><text x="218" y="314">通灵大峡谷</text></g>
+            <g class="pin pin-small"><circle cx="374" cy="206" r="18"/><text x="324" y="174">靖西/渠洋湖</text></g>
+            <g class="pin pin-small"><circle cx="520" cy="154" r="18"/><text x="478" y="122">浩坤湖</text></g>
+            <g class="pin pin-small"><circle cx="612" cy="206" r="18"/><text x="632" y="214">三门海</text></g>
+          </svg>
+
+          <div class="feature-grid">
+            <article class="feature-card"><strong>D2</strong><h3>大新县 / 峒那嶼灣</h3><p>这一段作为从城市进入山水的过渡。重点是河道、峰林、田园和喀斯特山体，适合慢慢进入旅行状态。</p></article>
+            <article class="feature-card"><strong>D3 上午</strong><h3>德天瀑布</h3><p>路线中最有冲击力的水景。七月通常水量更足，适合安排在早上，避开人流并保留后续车程时间。</p></article>
+            <article class="feature-card"><strong>D3 下午</strong><h3>渠洋湖</h3><p>靖西方向的湖泊景观，适合在瀑布和峡谷之后作为放松点。若当天疲劳，可以缩短停留时间。</p></article>
+            <article class="feature-card"><strong>D4</strong><h3>浩坤湖</h3><p>湖面、村落、喀斯特山体组合更适合慢节奏游玩。D4 的住宿选择会影响 D5 三门海的舒适度。</p></article>
+          </div>
+        </article>
+
+        <aside class="panel">
+          <h3>路线逻辑</h3>
+          <p class="lead">前两天负责抵达和进入大新，第三天景点密度最高，第四天主打浩坤湖，第五天是体力分岔点，第六天留给南宁轻松收尾。</p>
+          <div class="summary-list">
+            <div><b>起终点</b><span>南京出发，南宁进出</span></div>
+            <div><b>自驾主线</b><span>南宁 → 大新 → 德天 → 靖西 → 浩坤湖 → 三门海 → 南宁</span></div>
+            <div><b>住宿节奏</b><span>D1 南宁，D2 大新附近，D3 靖西，D4 未定，D5 建议南宁</span></div>
+            <div><b>风险点</b><span>D3 和 D5 较满，江州地下长廊建议做备选</span></div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="feature-grid">
+        <article class="feature-card"><strong>D3</strong><h3>通灵大峡谷</h3><p>峡谷、瀑布、溶洞和植被组合，体感会比普通观景点更“深入”。适合安排在德天之后，但当天不要再塞太多硬景点。</p></article>
+        <article class="feature-card"><strong>D5</strong><h3>三门海</h3><p>喀斯特水洞、天窗、地下河是核心看点。它和 D4 住宿位置强相关，建议前一晚住得不要太远。</p></article>
+        <article class="feature-card"><strong>备选</strong><h3>江州地下长廊</h3><p>建议只作为体力充足时的加项。如果 D5 当天已经很累，直接回南宁会让第 6 天更舒服。</p></article>
+        <article class="feature-card"><strong>D6</strong><h3>南宁市区及周边</h3><p>青秀山、三街两巷、广西民族博物馆都适合作为收尾。重点是轻松、补餐、整理行李和返程。</p></article>
+      </div>
+
+      <div class="timeline">
+        <article class="day-card">
+          <div class="day-badge">D1</div>
+          <div>
+            <h4>南京 → 南宁</h4>
+            <p>抵达、取车、入住、补给为主，不安排重景点。</p>
+            <div class="day-tags"><span class="tag">住南宁</span><span class="tag">取车/休整</span></div>
+          </div>
+        </article>
+
+        <article class="day-card">
+          <div class="day-badge">D2</div>
+          <div>
+            <h4>南宁 → 大新县 → 峒那嶼灣</h4>
+            <p>从南宁出发到大新县，游玩峒那嶼灣，当天住在大新或景区附近。</p>
+            <div class="day-tags"><span class="tag">住大新附近</span><span class="tag">山水第一天</span></div>
+          </div>
+        </article>
+
+        <article class="day-card">
+          <div class="day-badge">D3</div>
+          <div>
+            <h4>德天瀑布 → 通灵大峡谷 → 靖西 → 渠洋湖</h4>
+            <p>一早德天瀑布，之后通灵大峡谷；中午在靖西市吃午饭，下午到渠洋湖，晚上回靖西住。</p>
+            <div class="day-tags"><span class="tag">住靖西</span><span class="tag">行程较满</span><span class="tag">瀑布+峡谷+湖</span></div>
+          </div>
+        </article>
+
+        <article class="day-card">
+          <div class="day-badge">D4</div>
+          <div>
+            <h4>靖西市 → 浩坤湖</h4>
+            <p>从靖西市前往浩坤湖游玩。晚上住宿未定，后续根据 D5 路线决定住凌云、百色或凤山方向。</p>
+            <div class="day-tags"><span class="tag">住宿待定</span><span class="tag">湖景日</span></div>
+          </div>
+        </article>
+
+        <article class="day-card">
+          <div class="day-badge">D5</div>
+          <div>
+            <h4>三门海 → 江州地下长廊 / 返回南宁</h4>
+            <p>游玩三门海。如果体力和时间足够，可加江州地下长廊；否则当天直接返回南宁。</p>
+            <div class="day-tags"><span class="tag">弹性安排</span><span class="tag">建议住南宁</span></div>
+          </div>
+        </article>
+
+        <article class="day-card">
+          <div class="day-badge">D6</div>
+          <div>
+            <h4>南宁市区及周边</h4>
+            <p>青秀山、三街两巷、广西民族博物馆等，按返程时间灵活安排。</p>
+            <div class="day-tags"><span class="tag">南宁收尾</span><span class="tag">轻松日</span></div>
+          </div>
+        </article>
+      </div>
+
+      <table class="budget-table" aria-label="广西路线预算与住宿框架">
+        <thead>
+          <tr>
+            <th>项目</th>
+            <th>当前规划</th>
+            <th>后续需要确认</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>往返大交通</td>
+            <td>南京 → 南宁，南宁 → 南京</td>
+            <td>航班时间、价格、是否托运行李</td>
+          </tr>
+          <tr>
+            <td>租车自驾</td>
+            <td>南宁取还车，覆盖 D2-D5/D6</td>
+            <td>车型、保险、油费、高速费、是否需要第二驾驶人</td>
+          </tr>
+          <tr>
+            <td>住宿</td>
+            <td>D1 南宁，D2 大新附近，D3 靖西，D4 待定，D5 建议南宁</td>
+            <td>D4 住浩坤湖/凌云/百色/凤山哪一侧</td>
+          </tr>
+          <tr>
+            <td>景点</td>
+            <td>峒那嶼灣、德天瀑布、通灵大峡谷、渠洋湖、浩坤湖、三门海</td>
+            <td>开放时间、预约规则、船票/观光车</td>
           </tr>
         </tbody>
       </table>
     </section>
 
-    <section id="guangxi" class="route-section">
-      <div class="route-hero" style="background-image:url('https://source.unsplash.com/1800x1000/?detian,waterfall,guangxi,karst');">
-        <div>
-          <div class="kicker">路线 1 · 7 天 6 晚</div>
-          <h2>广西崇左百色：瀑布、边境公路与喀斯特田园</h2>
-          <p>推荐节奏：南宁进出，崇左大新住 2 晚，靖西住 2 晚，百色住 1 晚，南宁收尾 1 晚。</p>
-        </div>
-      </div>
-      <div class="split">
-        <div class="timeline">
-          <div class="day"><strong>D1</strong><div><h4>抵达南宁</h4><p>落地后取车或集合，逛三街两巷/青秀山，晚上吃老友粉和酸嘢。</p></div></div>
-          <div class="day"><strong>D2</strong><div><h4>南宁 → 崇左 → 明仕田园</h4><p>走崇左方向，下午竹筏或骑行明仕田园，傍晚拍山水倒影。</p></div></div>
-          <div class="day"><strong>D3</strong><div><h4>德天跨国瀑布 → 边境公路</h4><p>上午德天瀑布，下午沿边公路慢行，安排稻田、界碑、河谷观景点。</p></div></div>
-          <div class="day"><strong>D4</strong><div><h4>通灵大峡谷 → 靖西</h4><p>峡谷徒步看瀑布和热带植物，晚上住靖西，行程强度中等。</p></div></div>
-          <div class="day"><strong>D5</strong><div><h4>鹅泉 → 旧州古镇</h4><p>清晨鹅泉拍晨雾和田园，下午旧州古镇看绣球街巷。</p></div></div>
-          <div class="day"><strong>D6</strong><div><h4>靖西 → 百色</h4><p>可选浩坤湖或百色起义纪念园，傍晚回到城市休整。</p></div></div>
-          <div class="day"><strong>D7</strong><div><h4>百色/南宁返程</h4><p>根据返程交通安排半日市区或直接回南宁。</p></div></div>
-        </div>
-        <aside class="panel">
-          <h3>预算与风景</h3>
-          <div class="budget">
-            <div class="budget-row"><span>住宿 6 晚</span><b>1200-2100 元/人</b></div>
-            <div class="budget-row"><span>租车/包车/油费</span><b>900-1600 元/人</b></div>
-            <div class="budget-row"><span>门票与体验</span><b>550-900 元/人</b></div>
-            <div class="budget-row"><span>餐饮</span><b>900-1300 元/人</b></div>
-            <div class="budget-row"><span>机动费用</span><b>250-500 元/人</b></div>
-          </div>
-          <div class="highlight">适合：想控制预算、喜欢山水田园、不想每天赶太多景点。七月雨水多，德天瀑布通常更有气势。</div>
-          <div class="scenery">
-            <div style="background-image:url('https://source.unsplash.com/800x600/?karst,river,china');"><span>明仕田园骑行</span></div>
-            <div style="background-image:url('https://source.unsplash.com/800x600/?waterfall,tropical,gorge');"><span>峡谷瀑布步道</span></div>
-            <div style="background-image:url('https://source.unsplash.com/800x600/?rice,field,mountain');"><span>鹅泉晨雾田野</span></div>
-            <div style="background-image:url('https://source.unsplash.com/800x600/?border,road,mountain');"><span>边境公路风景</span></div>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <section id="yunnan" class="route-section">
-      <div class="route-hero" style="background-image:url('https://source.unsplash.com/1800x1000/?yunnan,snow,mountain,old,town');">
-        <div>
-          <div class="kicker">路线 2 · 7 天 6 晚</div>
-          <h2>云南香格里拉丽江大理：雪山、古城、湖泊与高原草甸</h2>
-          <p>推荐节奏：丽江进，香格里拉 2 晚，丽江 2 晚，大理 2 晚，或反向从大理进入。</p>
-        </div>
-      </div>
-      <div class="split">
-        <div class="timeline">
-          <div class="day"><strong>D1</strong><div><h4>抵达丽江</h4><p>适应海拔，晚上古城散步，不安排高强度项目。</p></div></div>
-          <div class="day"><strong>D2</strong><div><h4>玉龙雪山 → 蓝月谷</h4><p>上午雪山索道，下午蓝月谷，晚上回丽江休息。</p></div></div>
-          <div class="day"><strong>D3</strong><div><h4>丽江 → 虎跳峡 → 香格里拉</h4><p>沿金沙江峡谷北上，傍晚到独克宗古城。</p></div></div>
-          <div class="day"><strong>D4</strong><div><h4>松赞林寺 → 纳帕海</h4><p>上午寺院建筑与藏区文化，下午纳帕海环线看草甸和水鸟。</p></div></div>
-          <div class="day"><strong>D5</strong><div><h4>香格里拉 → 丽江/沙溪</h4><p>回程可加沙溪古镇，节奏更安静，适合拍人文街巷。</p></div></div>
-          <div class="day"><strong>D6</strong><div><h4>丽江 → 大理洱海</h4><p>动车或包车到大理，环洱海选生态廊道、喜洲、双廊。</p></div></div>
-          <div class="day"><strong>D7</strong><div><h4>苍山/古城 → 返程</h4><p>上午大理古城或苍山，下午从大理或昆明返程。</p></div></div>
-        </div>
-        <aside class="panel accent-amber">
-          <h3>预算与风景</h3>
-          <div class="budget">
-            <div class="budget-row"><span>住宿 6 晚</span><b>1800-3200 元/人</b></div>
-            <div class="budget-row"><span>动车/包车/当地交通</span><b>1000-1800 元/人</b></div>
-            <div class="budget-row"><span>门票与索道</span><b>900-1500 元/人</b></div>
-            <div class="budget-row"><span>餐饮</span><b>1100-1700 元/人</b></div>
-            <div class="budget-row"><span>机动费用</span><b>400-700 元/人</b></div>
-          </div>
-          <div class="highlight">适合：第一次带朋友或家人做长线旅行。七月香格里拉凉爽但雨水多，雪山和寺院需要提前预约和留出天气弹性。</div>
-          <div class="scenery">
-            <div style="background-image:url('https://source.unsplash.com/800x600/?jade,dragon,snow,mountain');"><span>玉龙雪山与蓝月谷</span></div>
-            <div style="background-image:url('https://source.unsplash.com/800x600/?tibetan,monastery,yunnan');"><span>松赞林寺金顶</span></div>
-            <div style="background-image:url('https://source.unsplash.com/800x600/?grassland,lake,yunnan');"><span>纳帕海草甸</span></div>
-            <div style="background-image:url('https://source.unsplash.com/800x600/?erhai,lake,dali');"><span>洱海环线</span></div>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <section id="xinjiang" class="route-section">
-      <div class="route-hero" style="background-image:url('https://source.unsplash.com/1800x1000/?sayram,lake,xinjiang,grassland');">
-        <div>
-          <div class="kicker">路线 3 · 7 天 6 晚</div>
-          <h2>新疆伊犁赛里木湖：草原湖泊、公路大片与雪山远景</h2>
-          <p>推荐节奏：伊宁进出更省时间；如果机票更合适，也可乌鲁木齐进、伊宁出。</p>
-        </div>
-      </div>
-      <div class="split">
-        <div class="timeline">
-          <div class="day"><strong>D1</strong><div><h4>抵达伊宁</h4><p>喀赞其民俗街、六星街，晚上吃手抓饭、烤包子、冰淇淋。</p></div></div>
-          <div class="day"><strong>D2</strong><div><h4>伊宁 → 赛里木湖</h4><p>环湖看雪山、草坡、湖湾，傍晚住景区外或果子沟附近。</p></div></div>
-          <div class="day"><strong>D3</strong><div><h4>果子沟 → 霍城/昭苏</h4><p>果子沟大桥观景，七月可看薰衣草余韵，继续去昭苏草原。</p></div></div>
-          <div class="day"><strong>D4</strong><div><h4>夏塔古道或昭苏草原</h4><p>雪山、河谷、草甸组合，体力允许可安排轻徒步。</p></div></div>
-          <div class="day"><strong>D5</strong><div><h4>特克斯 → 喀拉峻</h4><p>八卦城短停，下午喀拉峻草原看人体草原和雪岭云杉。</p></div></div>
-          <div class="day"><strong>D6</strong><div><h4>那拉提草原</h4><p>空中草原或河谷草原择一深玩，减少坐车疲劳。</p></div></div>
-          <div class="day"><strong>D7</strong><div><h4>那拉提/伊宁返程</h4><p>根据航班时间回伊宁，沿途安排观景停车点。</p></div></div>
-        </div>
-        <aside class="panel accent-blue">
-          <h3>预算与风景</h3>
-          <div class="budget">
-            <div class="budget-row"><span>住宿 6 晚</span><b>2600-4600 元/人</b></div>
-            <div class="budget-row"><span>包车/自驾/油费</span><b>2500-3800 元/人</b></div>
-            <div class="budget-row"><span>门票与区间车</span><b>1000-1600 元/人</b></div>
-            <div class="budget-row"><span>餐饮</span><b>1300-1900 元/人</b></div>
-            <div class="budget-row"><span>机动费用</span><b>400-900 元/人</b></div>
-          </div>
-          <div class="highlight">适合：最看重“路上风景”和照片冲击力的人。七月是伊犁旺季，要尽早订车和住宿，并预留天气与道路调整空间。</div>
-          <div class="scenery">
-            <div style="background-image:url('https://source.unsplash.com/800x600/?alpine,lake,xinjiang');"><span>赛里木湖环湖</span></div>
-            <div style="background-image:url('https://source.unsplash.com/800x600/?mountain,bridge,valley');"><span>果子沟山谷</span></div>
-            <div style="background-image:url('https://source.unsplash.com/800x600/?grassland,horses,xinjiang');"><span>喀拉峻草原</span></div>
-            <div style="background-image:url('https://source.unsplash.com/800x600/?nalati,grassland');"><span>那拉提公路</span></div>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <section id="recommend">
+    <section id="yunnan" class="view" aria-labelledby="yunnan-title">
       <div class="section-head">
         <div>
-          <h2>最终推荐</h2>
-          <p class="note">如果现在就要选一个七月最值得做成正式旅行的方向，我会把“新疆伊犁赛里木湖”放第一，但如果同行人不想长时间坐车，云南会是更稳的选择。</p>
+          <h2 id="yunnan-title">云南大理 · 丽江 · 香格里拉路线</h2>
+          <p class="lead">你的想法方向是对的，但泸沽湖和梅里雪山都属于“值得专门留一天路上时间”的点。推荐做成 9 天完整版；如果只有 6-7 天，就在泸沽湖和梅里雪山之间二选一。</p>
         </div>
+        <span class="pill">地图上北下南 · 非精确比例</span>
       </div>
-      <div class="recommend">
-        <div class="rank">
-          <div class="rank-item"><b>1</b><div><h3>新疆伊犁赛里木湖</h3><p>视觉冲击最强，七月草原、湖泊、雪山、公路都在线，适合重点展示“路上风景”。</p></div></div>
-          <div class="rank-item"><b>2</b><div><h3>云南香格里拉丽江大理</h3><p>体验最均衡，交通和住宿成熟，适合多人同行和第一次做完整旅行计划。</p></div></div>
-          <div class="rank-item"><b>3</b><div><h3>广西崇左百色</h3><p>预算友好、瀑布田园漂亮，适合短假期或想避开高海拔的人。</p></div></div>
-        </div>
-        <div class="panel">
-          <h3>下一步可以这样定稿</h3>
-          <p>确认出发城市、人数、准确日期后，把往返机票/高铁、住宿档位和包车价格补进去，预算会从“区间估算”变成“可执行清单”。</p>
-          <p>如果要继续做成 PPT，可以直接用这个 HTML 的内容拆成 12-16 页：封面、总览、三路线对比、每条路线 3 页、预算页、推荐页。</p>
-          <div class="highlight">当前默认：7 天 6 晚、2 人、舒适型、不含出发地往返大交通。资料核对日期：2026-06-25。</div>
-        </div>
+
+      <div class="grid-2">
+        <article class="map-card">
+          <div class="map-meta">
+            <div>
+              <h3>南京飞大理 + 滇西北自驾</h3>
+              <p>蓝色虚线为飞行段，绿色虚线为自驾主线。泸沽湖在丽江东北侧，梅里雪山在香格里拉西北方向，所以两者同时覆盖时必须预留回到丽江再北上的转场。</p>
+            </div>
+            <span class="pill">建议 9 天 8 晚</span>
+          </div>
+
+          <svg class="map-svg" viewBox="0 0 1100 640" role="img" aria-label="云南九天路线地图，北方朝上">
+            <path class="land" d="M146 152 C270 42 484 54 642 118 C810 186 960 324 916 474 C874 616 654 606 470 552 C272 494 66 342 146 152 Z" />
+            <text class="map-note" x="104" y="102">滇西北方向示意 · 上北下南</text>
+            <g class="north-arrow" transform="translate(1000 86)">
+              <text x="0" y="-8" text-anchor="middle">N</text>
+              <path d="M0 44 L0 8" />
+              <path d="M0 8 L-10 27 L0 21 L10 27 Z" />
+            </g>
+
+            <path class="flight" d="M876 96 C880 238 784 398 650 500" />
+            <path class="route-wide" d="M650 500 L626 384 L642 330 L786 300 L626 384 L512 292 L430 210 L452 178 L296 94 L430 210" />
+            <path class="route-dots" d="M650 500 L626 384 L642 330 L786 300 L626 384 L512 292 L430 210 L452 178 L296 94 L430 210" />
+
+            <g class="pin"><circle cx="876" cy="96" r="18"/><text x="842" y="72">南京</text></g>
+            <g class="pin"><circle cx="650" cy="500" r="18"/><text x="612" y="552">大理/洱海</text></g>
+            <g class="pin pin-small"><circle cx="626" cy="384" r="18"/><text x="588" y="426">丽江</text></g>
+            <g class="pin pin-small"><circle cx="642" cy="330" r="18"/><text x="650" y="316">玉龙雪山</text></g>
+            <g class="pin pin-small"><circle cx="786" cy="300" r="18"/><text x="804" y="306">泸沽湖</text></g>
+            <g class="pin pin-small"><circle cx="512" cy="292" r="18"/><text x="404" y="284">虎跳峡</text></g>
+            <g class="pin pin-small"><circle cx="430" cy="210" r="18"/><text x="350" y="198">香格里拉</text></g>
+            <g class="pin pin-small"><circle cx="452" cy="178" r="18"/><text x="470" y="164">松赞林寺</text></g>
+            <g class="pin pin-small"><circle cx="296" cy="94" r="18"/><text x="210" y="82">梅里雪山/飞来寺</text></g>
+          </svg>
+
+          <div class="feature-grid">
+            <article class="feature-card"><strong>不建议</strong><h3>D3 夜里赶泸沽湖</h3><p>玉龙雪山加丽江千古情已经是完整一天，高海拔和早起会消耗体力。当天再开夜路去泸沽湖，体验和安全感都会下降。</p></article>
+            <article class="feature-card"><strong>不建议</strong><h3>D4 泸沽湖直奔香格里拉</h3><p>泸沽湖与香格里拉不是顺路关系，中间通常需要回到丽江方向再北上。D4 更适合专心玩泸沽湖，D5 再转场。</p></article>
+            <article class="feature-card"><strong>推荐</strong><h3>虎跳峡放在北上途中</h3><p>虎跳峡位于丽江和香格里拉之间，适合作为丽江前往香格里拉当天的核心停靠点，不需要单独绕大弯。</p></article>
+          </div>
+        </article>
+
+        <aside class="panel">
+          <h3>路线判断</h3>
+          <p class="lead">如果朋友时间充足，9 天是比较舒服的版本；如果只有 7 天，优先保留梅里雪山，暂时删掉泸沽湖；如果只有 6 天，建议做大理、丽江、香格里拉轻量版。</p>
+          <div class="summary-list">
+            <div><b>起点</b><span>南京飞大理，先住洱海边，节奏很好</span></div>
+            <div><b>主线</b><span>大理 → 丽江 → 泸沽湖 → 丽江 → 虎跳峡 → 香格里拉 → 梅里雪山</span></div>
+            <div><b>关键取舍</b><span>泸沽湖和梅里雪山都想去，建议至少 9 天</span></div>
+            <div><b>备选交通</b><span>不想全程自驾时，丽江和香格里拉之间可考虑动车/包车组合</span></div>
+          </div>
+        </aside>
       </div>
+
+      <div class="feature-grid">
+        <article class="feature-card"><strong>D1-D2</strong><h3>大理和洱海</h3><p>第一天只做抵达、入住和洱海边散步。第二天上午大理古城，下午开车到丽江，晚上在丽江古城或束河住下。</p></article>
+        <article class="feature-card"><strong>D3</strong><h3>玉龙雪山 + 丽江千古情</h3><p>建议把这天固定住丽江。玉龙雪山、蓝月谷和演出组合已经很满，不把长途转场叠在同一天。</p></article>
+        <article class="feature-card"><strong>D4-D5</strong><h3>泸沽湖往返</h3><p>D4 从丽江去泸沽湖，下午和傍晚环湖；D5 半日泸沽湖后返回丽江或束河，作为高原北上前的缓冲。</p></article>
+        <article class="feature-card"><strong>D6-D8</strong><h3>香格里拉到梅里</h3><p>丽江北上经过虎跳峡到香格里拉，再去松赞林寺、纳帕海和飞来寺。梅里雪山最好住飞来寺附近，等清晨日照金山。</p></article>
+      </div>
+
+      <div class="timeline">
+        <article class="day-card">
+          <div class="day-badge">D1</div>
+          <div>
+            <h4>南京 → 大理，住洱海边</h4>
+            <p>这一天以抵达和休整为主。入住洱海边后，看日落、吃晚饭、适应节奏，不安排硬景点。</p>
+            <div class="day-tags"><span class="tag">住大理/洱海边</span><span class="tag">抵达日</span></div>
+          </div>
+        </article>
+
+        <article class="day-card">
+          <div class="day-badge">D2</div>
+          <div>
+            <h4>大理古城 → 丽江</h4>
+            <p>上午大理古城和周边轻松走走，午后开车去丽江。傍晚到丽江后不再安排远路，适合古城散步或束河休息。</p>
+            <div class="day-tags"><span class="tag">住丽江</span><span class="tag">古城+转场</span></div>
+          </div>
+        </article>
+
+        <article class="day-card">
+          <div class="day-badge">D3</div>
+          <div>
+            <h4>玉龙雪山 + 蓝月谷 + 丽江千古情</h4>
+            <p>这是丽江最完整的一天。建议早点出发，晚上看演出后继续住丽江，不建议当晚赶去泸沽湖。</p>
+            <div class="day-tags"><span class="tag">住丽江</span><span class="tag">雪山日</span><span class="tag">不要夜路</span></div>
+          </div>
+        </article>
+
+        <article class="day-card">
+          <div class="day-badge">D4</div>
+          <div>
+            <h4>丽江 → 泸沽湖</h4>
+            <p>单独给泸沽湖一天更合理。下午环湖看里格、大落水、草海等点，傍晚留给湖边日落。</p>
+            <div class="day-tags"><span class="tag">住泸沽湖</span><span class="tag">湖景日</span></div>
+          </div>
+        </article>
+
+        <article class="day-card">
+          <div class="day-badge">D5</div>
+          <div>
+            <h4>泸沽湖半日 → 丽江 / 束河</h4>
+            <p>上午补看泸沽湖，午后返回丽江方向。晚上住丽江或束河，给后面去香格里拉留出稳定起点。</p>
+            <div class="day-tags"><span class="tag">住丽江/束河</span><span class="tag">缓冲转场</span></div>
+          </div>
+        </article>
+
+        <article class="day-card">
+          <div class="day-badge">D6</div>
+          <div>
+            <h4>丽江 → 虎跳峡 → 香格里拉</h4>
+            <p>从丽江北上，把虎跳峡放在途中游玩。傍晚到香格里拉后，可逛独克宗古城，注意高原节奏放慢。</p>
+            <div class="day-tags"><span class="tag">住香格里拉</span><span class="tag">虎跳峡</span><span class="tag">高原适应</span></div>
+          </div>
+        </article>
+
+        <article class="day-card">
+          <div class="day-badge">D7</div>
+          <div>
+            <h4>松赞林寺 → 纳帕海 → 飞来寺</h4>
+            <p>上午松赞林寺，之后视天气和体力看纳帕海或普达措，再前往飞来寺或德钦方向住宿，为第二天看梅里雪山做准备。</p>
+            <div class="day-tags"><span class="tag">住飞来寺/德钦</span><span class="tag">寺院+高原湖草甸</span></div>
+          </div>
+        </article>
+
+        <article class="day-card">
+          <div class="day-badge">D8</div>
+          <div>
+            <h4>梅里雪山日照金山 → 香格里拉</h4>
+            <p>清晨看梅里雪山，如果天气好这是整条路线的高光。之后返程回香格里拉，路上不再安排太满。</p>
+            <div class="day-tags"><span class="tag">住香格里拉</span><span class="tag">梅里雪山</span></div>
+          </div>
+        </article>
+
+        <article class="day-card">
+          <div class="day-badge">D9</div>
+          <div>
+            <h4>香格里拉返程</h4>
+            <p>优先查香格里拉直飞或经昆明转机；如果航班不合适，也可以坐动车到丽江或昆明后返程。</p>
+            <div class="day-tags"><span class="tag">返程日</span><span class="tag">航班/动车待查</span></div>
+          </div>
+        </article>
+      </div>
+
+      <table class="budget-table" aria-label="云南路线取舍与预算框架">
+        <thead>
+          <tr>
+            <th>版本</th>
+            <th>建议安排</th>
+            <th>适合情况</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>9 天完整版</td>
+            <td>大理、丽江、玉龙雪山、泸沽湖、虎跳峡、香格里拉、松赞林寺、梅里雪山全部覆盖</td>
+            <td>最符合你的原始想法，节奏仍然偏满，但不至于每天硬赶</td>
+          </tr>
+          <tr>
+            <td>7 天压缩版</td>
+            <td>删掉泸沽湖，保留大理、丽江、玉龙雪山、虎跳峡、香格里拉、梅里雪山</td>
+            <td>想看雪山和藏区氛围，且愿意把湖泊留到下次</td>
+          </tr>
+          <tr>
+            <td>6 天轻松版</td>
+            <td>大理、丽江、玉龙雪山、虎跳峡、香格里拉，不去泸沽湖和梅里雪山</td>
+            <td>假期较短、同行人不想长时间坐车、希望体验稳定</td>
+          </tr>
+          <tr>
+            <td>后续待补</td>
+            <td>机票、租车、异地还车、景区预约、氧气和高反准备、每晚酒店预算</td>
+            <td>等路线版本确定后再填具体预算最准确</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
-    <section class="sources">
-      <strong>资料与图片说明</strong>
-      <p>景点信息参考公开资料；预算为规划估算，实际价格会随出发城市、航班、住宿档位、包车车型和旺季余量变化。页面中的风景图使用 Unsplash 动态图片源，联网打开效果最佳。</p>
-      <ul>
-        <li><a href="https://zh.wikipedia.org/wiki/%E5%BE%B7%E5%A4%A9%E7%80%91%E5%B8%83">德天瀑布资料</a>：位置、跨国瀑布、丰水期等信息。</li>
-        <li><a href="https://zh.wikipedia.org/wiki/%E5%9B%BD%E5%AE%B65A%E7%BA%A7%E6%97%85%E6%B8%B8%E6%99%AF%E5%8C%BA">国家 5A 级旅游景区列表</a>：德天跨国瀑布、百色起义纪念园、赛里木湖等评级参考。</li>
-        <li><a href="https://en.wikipedia.org/wiki/Shangri-La%2C_Yunnan">Shangri-La, Yunnan</a>：香格里拉海拔、气候、松赞林寺、普达措等参考。</li>
-        <li><a href="https://en.wikipedia.org/wiki/Dali_Town%2C_Yunnan">Dali Town, Yunnan</a>：大理古城、苍山洱海、交通等参考。</li>
-        <li><a href="https://en.wikipedia.org/wiki/Sayram_Lake">Sayram Lake</a>：赛里木湖位置、海拔、环湖旅游设施等参考。</li>
-      </ul>
+    <section id="xinjiang" class="view" aria-labelledby="xinjiang-title">
+      <div class="section-head">
+        <div>
+          <h2 id="xinjiang-title">新疆伊犁 7 天草原湖泊环线</h2>
+          <p class="lead">这条线视觉冲击最强：赛里木湖、喀拉峻、夏塔、那拉提、唐布拉都很值得。整体可行，但 D2、D3、D7 都偏满，建议把“住乌鲁木齐”作为第 7 天的稳妥收尾，南京返程最好放到第 8 天。</p>
+        </div>
+        <span class="pill">地图上北下南 · 非精确比例</span>
+      </div>
+
+      <div class="grid-2">
+        <article class="map-card">
+          <div class="map-meta">
+            <div>
+              <h3>南京飞伊宁 + 伊犁向东横穿</h3>
+              <p>蓝色虚线为飞行段，绿色虚线为自驾主线。路线先在伊犁河谷西部看湖泊和草原，再向东经过那拉提、唐布拉、安集海，最终到乌鲁木齐。</p>
+            </div>
+            <span class="pill">建议 7 天到乌鲁木齐</span>
+          </div>
+
+          <svg class="map-svg" viewBox="0 0 1100 640" role="img" aria-label="新疆伊犁七天路线地图，北方朝上">
+            <path class="land" d="M94 242 C188 94 404 76 568 126 C750 182 1008 118 1030 286 C1052 452 820 550 582 528 C362 508 16 432 94 242 Z" />
+            <text class="map-note" x="104" y="102">伊犁到乌鲁木齐方向示意 · 上北下南</text>
+            <g class="north-arrow" transform="translate(1000 86)">
+              <text x="0" y="-8" text-anchor="middle">N</text>
+              <path d="M0 44 L0 8" />
+              <path d="M0 8 L-10 27 L0 21 L10 27 Z" />
+            </g>
+
+            <path class="flight" d="M982 92 C756 122 398 188 188 382" />
+            <path class="route-wide" d="M188 382 L168 250 L334 452 L404 420 L240 532 L188 382 L560 426 L650 374 L720 342 L890 256 L990 190" />
+            <path class="route-dots" d="M188 382 L168 250 L334 452 L404 420 L240 532 L188 382 L560 426 L650 374 L720 342 L890 256 L990 190" />
+
+            <g class="pin"><circle cx="982" cy="92" r="18"/><text x="944" y="68">南京</text></g>
+            <g class="pin"><circle cx="188" cy="382" r="18"/><text x="138" y="426">伊宁</text></g>
+            <g class="pin pin-small"><circle cx="168" cy="250" r="18"/><text x="92" y="236">赛里木湖</text></g>
+            <g class="pin pin-small"><circle cx="334" cy="452" r="18"/><text x="288" y="496">特克斯</text></g>
+            <g class="pin pin-small"><circle cx="404" cy="420" r="18"/><text x="416" y="404">喀拉峻</text></g>
+            <g class="pin pin-small"><circle cx="240" cy="532" r="18"/><text x="154" y="574">夏塔乡</text></g>
+            <g class="pin pin-small"><circle cx="560" cy="426" r="18"/><text x="520" y="474">那拉提</text></g>
+            <g class="pin pin-small"><circle cx="650" cy="374" r="18"/><text x="594" y="348">孟克特古道</text></g>
+            <g class="pin pin-small"><circle cx="720" cy="342" r="18"/><text x="732" y="350">唐布拉</text></g>
+            <g class="pin pin-small"><circle cx="890" cy="256" r="18"/><text x="826" y="236">安集海</text></g>
+            <g class="pin pin-small"><circle cx="990" cy="190" r="18"/><text x="924" y="174">乌鲁木齐</text></g>
+          </svg>
+
+          <div class="feature-grid">
+            <article class="feature-card"><strong>D2</strong><h3>赛里木湖后住特克斯</h3><p>可以这样排，但当天会很长。赛里木湖环湖不要拖到太晚，否则从湖区再赶到特克斯会影响休息。</p></article>
+            <article class="feature-card"><strong>D3</strong><h3>喀拉峻 + 骑马 + 夏塔</h3><p>你写的骑马点我先按喀拉峻或琼库什台一带体验处理。当天还要去夏塔乡，骑马建议做短体验，不要安排成半日深度线。</p></article>
+            <article class="feature-card"><strong>D7</strong><h3>唐布拉 + 安集海 + 乌鲁木齐</h3><p>这天是全线最硬的一天。建议只负责玩唐布拉百里画廊、看安集海、到乌鲁木齐住下，不建议同日再飞南京。</p></article>
+          </div>
+        </article>
+
+        <aside class="panel">
+          <h3>路线判断</h3>
+          <p class="lead">这条线适合想看“湖泊、雪山、草原、公路大片”的朋友。真正需要控制的是车程，不是景点数量。每天都想玩满的话，第 7 天最好不要当天返程。</p>
+          <div class="summary-list">
+            <div><b>起点</b><span>南京飞伊宁，先休整，第二天再正式自驾</span></div>
+            <div><b>主线</b><span>伊宁 → 赛里木湖 → 特克斯 → 喀拉峻 → 夏塔 → 伊宁 → 那拉提 → 唐布拉 → 安集海 → 乌鲁木齐</span></div>
+            <div><b>强度</b><span>风景密度高，但 D2、D3、D7 车程和游玩都偏满</span></div>
+            <div><b>建议</b><span>若必须第 7 天回南京，删掉安集海或减少唐布拉停留</span></div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="feature-grid">
+        <article class="feature-card"><strong>湖泊</strong><h3>赛里木湖</h3><p>第 2 天的核心。环湖时建议把停留点控制在 3-4 个，留出傍晚去特克斯的车程，不要一路无限停车。</p></article>
+        <article class="feature-card"><strong>草原</strong><h3>喀拉峻 / 那拉提</h3><p>喀拉峻更开阔、层次感强；那拉提景区成熟，适合安排一整天或一天半。两者都去时，不需要每个景交线都走满。</p></article>
+        <article class="feature-card"><strong>雪山</strong><h3>夏塔古道</h3><p>夏塔适合留完整白天，天气好时雪山、河谷、森林都很出片。D4 玩完回伊宁会累，必要时可改住昭苏或特克斯。</p></article>
+        <article class="feature-card"><strong>公路</strong><h3>唐布拉百里画廊</h3><p>第 6-7 天是公路风景段。孟克特古道和山区路段受天气影响更明显，行前要查路况和是否管控。</p></article>
+      </div>
+
+      <div class="timeline">
+        <article class="day-card">
+          <div class="day-badge">D1</div>
+          <div>
+            <h4>南京 → 伊宁</h4>
+            <p>抵达后取车、休息、补给。不安排硬景点，晚上早点睡，为后面连续自驾留体力。</p>
+            <div class="day-tags"><span class="tag">住伊宁</span><span class="tag">抵达休整</span></div>
+          </div>
+        </article>
+
+        <article class="day-card">
+          <div class="day-badge">D2</div>
+          <div>
+            <h4>伊宁 → 赛里木湖环湖 → 特克斯</h4>
+            <p>一早出发去赛里木湖，环湖游玩后前往特克斯。当天景色强，但车程长，建议控制午后停留时间。</p>
+            <div class="day-tags"><span class="tag">住特克斯</span><span class="tag">环湖日</span><span class="tag">强度偏高</span></div>
+          </div>
+        </article>
+
+        <article class="day-card">
+          <div class="day-badge">D3</div>
+          <div>
+            <h4>特克斯 → 喀拉峻大草原 → 夏塔乡</h4>
+            <p>重点游玩喀拉峻大草原。若想骑马，建议只做短体验；下午或傍晚前往夏塔乡，避免夜路太长。</p>
+            <div class="day-tags"><span class="tag">住夏塔乡</span><span class="tag">草原日</span><span class="tag">骑马备选</span></div>
+          </div>
+        </article>
+
+        <article class="day-card">
+          <div class="day-badge">D4</div>
+          <div>
+            <h4>夏塔古道国家森林公园 → 伊宁</h4>
+            <p>把完整白天留给夏塔。体力好时深入一些，体力一般就控制徒步距离。晚上按原计划回伊宁；如果太累，可改住昭苏或特克斯。</p>
+            <div class="day-tags"><span class="tag">住伊宁</span><span class="tag">雪山河谷</span><span class="tag">可调整住宿</span></div>
+          </div>
+        </article>
+
+        <article class="day-card">
+          <div class="day-badge">D5</div>
+          <div>
+            <h4>伊宁 → 那拉提旅游风景区</h4>
+            <p>从伊宁前往那拉提，抵达后先玩一条主要景交线。当天不要贪多，把另一部分留到 D6。</p>
+            <div class="day-tags"><span class="tag">住那拉提</span><span class="tag">景区成熟</span></div>
+          </div>
+        </article>
+
+        <article class="day-card">
+          <div class="day-badge">D6</div>
+          <div>
+            <h4>那拉提二刷 → 孟克特古道 → 唐布拉</h4>
+            <p>上午补玩那拉提，之后前往孟克特古道和唐布拉方向。若天气或路况不稳，孟克特古道改为唐布拉轻松游。</p>
+            <div class="day-tags"><span class="tag">住唐布拉</span><span class="tag">山区路段</span><span class="tag">看路况</span></div>
+          </div>
+        </article>
+
+        <article class="day-card">
+          <div class="day-badge">D7</div>
+          <div>
+            <h4>唐布拉百里画廊 → 安集海 → 乌鲁木齐</h4>
+            <p>上午走唐布拉百里画廊，之后向东去安集海大峡谷，晚上到乌鲁木齐。最稳妥是住乌鲁木齐，次日再飞南京。</p>
+            <div class="day-tags"><span class="tag">建议住乌鲁木齐</span><span class="tag">全线最赶</span><span class="tag">返程可放 D8</span></div>
+          </div>
+        </article>
+      </div>
+
+      <table class="budget-table" aria-label="新疆路线取舍与预算框架">
+        <thead>
+          <tr>
+            <th>项目</th>
+            <th>建议安排</th>
+            <th>风险与取舍</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>7 天主线</td>
+            <td>南京飞伊宁，伊宁取车，乌鲁木齐还车或包车结束</td>
+            <td>异地还车费用可能较高，提前比价租车和包车</td>
+          </tr>
+          <tr>
+            <td>住宿节奏</td>
+            <td>D1 伊宁，D2 特克斯，D3 夏塔乡，D4 伊宁，D5 那拉提，D6 唐布拉，D7 乌鲁木齐</td>
+            <td>D4 如果夏塔玩得累，可临时改住昭苏或特克斯</td>
+          </tr>
+          <tr>
+            <td>必须压缩</td>
+            <td>如果第 7 天必须飞南京，优先删安集海，或把唐布拉只做车览</td>
+            <td>不建议又玩唐布拉、又去安集海、又赶机场</td>
+          </tr>
+          <tr>
+            <td>行前确认</td>
+            <td>景区预约、山区路况、天气、骑马点、独库及支线路段开放情况</td>
+            <td>七月也可能因天气临时限行或调整开放范围</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
+
+    <p class="footer-note">说明：当前版本已移除照片，只保留文字说明和路线示意图。当前仅修改本地文件，未上传 GitHub。</p>
   </main>
+
+  <script>
+    const tabs = Array.from(document.querySelectorAll(".tab"));
+    const views = Array.from(document.querySelectorAll(".view"));
+
+    function setView(id, updateHash = true) {
+      const target = views.some((view) => view.id === id) ? id : "guangxi";
+      tabs.forEach((tab) => {
+        const active = tab.dataset.target === target;
+        tab.classList.toggle("is-active", active);
+        tab.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+      views.forEach((view) => {
+        view.classList.toggle("is-active", view.id === target);
+      });
+      if (updateHash) history.replaceState(null, "", "#" + target);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => setView(tab.dataset.target));
+    });
+
+    window.addEventListener("hashchange", () => {
+      setView(location.hash.replace("#", ""), false);
+    });
+
+    setView(location.hash.replace("#", "") || "guangxi", true);
+  </script>
 </body>
 </html>
